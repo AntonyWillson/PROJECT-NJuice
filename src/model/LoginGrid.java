@@ -18,8 +18,18 @@ public class LoginGrid extends GridPane {
 	private PasswordField passwordInput;
 	
 	private Button loginButton;
+
+//	private FlowPane flow2;
+//	private FlowPane flow3;
+//	private FlowPane flow4;
+//	private FlowPane flow5;
+//	private FlowPane flow6;
 	
-	private VBox vBox;
+	private VBox vboxUsername;
+	private VBox vboxPassword;
+	private VBox vboxLoginLabel;
+	private VBox vboxLoginButton;
+
 	
 	void initialize() {
 		// Label
@@ -36,7 +46,11 @@ public class LoginGrid extends GridPane {
 		loginButton = new Button();
 		
 		// VBox
-		vBox = new VBox();
+		vboxUsername = new VBox(10);
+		vboxPassword = new VBox(10);
+		vboxLoginLabel = new VBox(20);
+		vboxLoginButton = new VBox(30);
+		
 	}
 	
 	void components() {
@@ -48,32 +62,36 @@ public class LoginGrid extends GridPane {
 		
 		// Text Field
 		usernameInput.setPromptText("Enter Username...");
+		usernameInput.setPrefWidth(400);
 		passwordInput.setPromptText("Enter Password...");
 		
 		// Button
 		loginButton.setText("Login");
 		
 		// Edit Text
-		loginLabel.setFont(Font.font(null,FontWeight.BOLD,25));
+		loginLabel.setFont(Font.font(null,FontWeight.BOLD,50));
+		NjuiceLabel.setFont(Font.font(null,FontWeight.BOLD,15));
 		
-		// Vbox
-		vBox.getChildren().addAll(loginLabel,NjuiceLabel);
+		// VBox
+		
+		vboxUsername.getChildren().addAll(usernameLabel,usernameInput);
+		vboxPassword.getChildren().addAll(passwordLabel,passwordInput);
+		vboxLoginLabel.getChildren().add(loginLabel);
+		vboxLoginButton.getChildren().addAll(vboxPassword,loginButton);
 		
 		// Grid Pane
-		this.addRow(0, vBox);
-//		this.addRow(1, NjuiceLabel);
-		this.addRow(2, usernameLabel);
-		this.addRow(3, usernameInput);
-		this.addRow(4, passwordLabel);
-		this.addRow(5, passwordInput);
-		this.addRow(6, loginButton);
+		this.add(vboxLoginLabel,0, 0);
+		this.add(NjuiceLabel, 0, 1);
+		this.add(vboxUsername, 0, 2);
+		this.add(vboxPassword, 0, 4);
+		this.add(vboxLoginButton, 0, 6);
 	}
 	
 	void arrangeComponents() {
 		this.setVgap(10);
 		this.setHgap(10);
-		
 		this.setAlignment(Pos.CENTER);
+
 	}
 	
 	public LoginGrid() {
