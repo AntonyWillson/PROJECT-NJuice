@@ -19,16 +19,12 @@ public class LoginGrid extends GridPane {
 	
 	private Button loginButton;
 
-//	private FlowPane flow2;
-//	private FlowPane flow3;
-//	private FlowPane flow4;
-//	private FlowPane flow5;
-//	private FlowPane flow6;
-	
 	private VBox vboxUsername;
 	private VBox vboxPassword;
 	private VBox vboxLoginLabel;
 	private VBox vboxLoginButton;
+	
+
 
 	
 	void initialize() {
@@ -85,6 +81,7 @@ public class LoginGrid extends GridPane {
 		this.add(vboxUsername, 0, 2);
 		this.add(vboxPassword, 0, 4);
 		this.add(vboxLoginButton, 0, 6);
+		
 	}
 	
 	void arrangeComponents() {

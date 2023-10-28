@@ -1,5 +1,7 @@
 package main;
 
+
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
@@ -8,11 +10,13 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.LoginGrid;
+import model.RegisterGrid;
 
 public class Main extends Application{
-	Scene mainScene;
-	BorderPane border;
+	Scene loginScene,registerScene;
+	BorderPane borderLogin,borderRegister,border;
 	LoginGrid Login;
+	RegisterGrid Register;
 	
 	// Menu
 	MenuBar menuBar;	
@@ -23,7 +27,9 @@ public class Main extends Application{
 	void initialize() {
 		
 		// Pane
-		border = new BorderPane();
+		borderLogin = new BorderPane();
+		borderRegister = new BorderPane();
+		Register = new RegisterGrid();
 		Login = new LoginGrid();
 		
 		//Menu
@@ -33,7 +39,8 @@ public class Main extends Application{
 		menuItem2 = new MenuItem();
 		
 		// Scene
-		mainScene = new Scene(border,750,750);
+		registerScene = new Scene(borderRegister,750,750);
+		loginScene = new Scene(borderLogin,750,750);
 	}
 	
 	void components() {
@@ -45,9 +52,13 @@ public class Main extends Application{
 		menuBar.getMenus().addAll(menu1);
 		menu1.getItems().addAll(menuItem1,menuItem2);
 		
-		// Border
-		border.setTop(menuBar);
-		border.setCenter(Login);
+		// Border Login
+		borderRegister.setTop(menuBar);
+		borderLogin.setCenter(Login);
+		
+		// Border Register
+		borderRegister.setTop(menuBar);
+		borderRegister.setCenter(Register);
 		
 	}
 	
@@ -65,7 +76,17 @@ public class Main extends Application{
 		components();
 		arrangeComponents();
 		
-		mainStage.setScene(mainScene);
+		menuItem1.setOnAction(event ->{
+			mainStage.setScene(loginScene);
+			borderLogin.setTop(menuBar);
+		});
+		
+		menuItem2.setOnAction(event ->{
+			mainStage.setScene(registerScene);
+			borderRegister.setTop(menuBar);
+		});
+		
+		mainStage.setScene(registerScene);
 		mainStage.show();
 		
 	}
