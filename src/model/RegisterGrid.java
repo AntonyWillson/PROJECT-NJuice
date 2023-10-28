@@ -69,7 +69,7 @@ public class RegisterGrid extends GridPane {
 		passwordInput.setPromptText("Enter Password...");
 		
 		// Button
-		registerButton.setText("Login");
+		registerButton.setText("Register");
 		
 		// Edit Text
 		registerLabel.setFont(Font.font(null,FontWeight.BOLD,50));
