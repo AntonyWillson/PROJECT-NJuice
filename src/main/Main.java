@@ -50,8 +50,10 @@ public class Main extends Application{
 		borderLogin = new BorderPane();
 		borderRegister = new BorderPane();
 		borderHome = new BorderPane();
+		
 		register = new RegisterGrid();
 		login = new LoginGrid();
+		home = new HomeGrid();
 		
 		//Menu
 		menuBar = new MenuBar();
@@ -154,7 +156,7 @@ public class Main extends Application{
 		});
 		
 		
-		mainStage.setScene(registerScene);
+		mainStage.setScene(homeScene);
 		mainStage.show();
 		
 	}

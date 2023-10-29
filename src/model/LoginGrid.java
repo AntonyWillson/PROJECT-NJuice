@@ -30,9 +30,6 @@ public class LoginGrid extends GridPane {
 	private VBox vboxLoginLabel;
 	private VBox vboxLoginButton;
 	
-	private HBox hboxToolbar;
-	
-	private BorderPane borderHome;
 	
 	
 	// Tool bar
@@ -61,11 +58,6 @@ public class LoginGrid extends GridPane {
 		vboxLoginLabel = new VBox(10);
 		vboxLoginButton = new VBox(50);
 		
-		// Hbox
-		hboxToolbar = new HBox(50);
-		
-		// Border Pane
-		borderHome = new BorderPane();
 		
 		// Button
 		logoutButton = new Button();
@@ -129,8 +121,6 @@ public class LoginGrid extends GridPane {
 		initialize();
 		components();
 		arrangeComponents();
-		
-
 		
 	
 	}
