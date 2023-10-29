@@ -23,7 +23,7 @@ public class LoginGrid extends GridPane {
 	private TextField usernameInput;
 	private PasswordField passwordInput;
 	
-	private Button loginButton,logoutButton;
+	public Button loginButton,logoutButton;
 
 	private VBox vboxUsername;
 	private VBox vboxPassword;
@@ -32,17 +32,14 @@ public class LoginGrid extends GridPane {
 	
 	private HBox hboxToolbar;
 	
-	private Scene homeScene;
-	
-	private Stage homeStage;
 	private BorderPane borderHome;
 	
 	
 	// Tool bar
-	ToolBar toolBar;
+	private ToolBar toolBar;
 	
 	
-	
+
 	void initialize() {
 		// Label
 		loginLabel = new Label();
@@ -70,10 +67,6 @@ public class LoginGrid extends GridPane {
 		// Border Pane
 		borderHome = new BorderPane();
 		
-		// Scene]
-		homeStage = new Stage();
-		homeScene = new Scene(borderHome,750,750);
-		
 		// Button
 		logoutButton = new Button();
 		
@@ -84,7 +77,7 @@ public class LoginGrid extends GridPane {
 		
 	}
 	
-	void components() {
+	 void components() {
 		// Label
 		loginLabel.setText("Login");
 		NjuiceLabel.setText("NJuice");
@@ -115,15 +108,7 @@ public class LoginGrid extends GridPane {
 		this.add(vboxUsername, 0, 2);
 		this.add(vboxPassword, 0, 4);
 		this.add(vboxLoginButton, 0, 6);
-		
-		// Button
-		logoutButton.setText("Logout");
-						
-		// Tool Bar
-		toolBar.getItems().addAll(logoutButton,welcomeLabel);
-				
-		// Hbox
-		hboxToolbar.getChildren().addAll(toolBar);
+
 	}
 	
 	void arrangeComponents() {
@@ -138,32 +123,21 @@ public class LoginGrid extends GridPane {
 		this.setAlignment(Pos.CENTER);
 
 	}
+
 	
 	public LoginGrid() {
 		initialize();
 		components();
 		arrangeComponents();
 		
-		loginButton.setOnAction(event -> handleLoginButtonClick());
-		logoutButton.setOnAction(event -> handleLogoutButtonClick());
+
 		
 	
 	}
-
-	private void handleLogoutButtonClick() {
-		LoginGrid loginGrid = new LoginGrid();
-		Scene loginScene = new Scene(loginGrid,750,750);
-		homeStage.setScene(loginScene);
-		homeStage.show();
-	}
-
-	private void handleLoginButtonClick() {
-		// TODO Auto-generated method stub
-		borderHome.setTop(hboxToolbar);
+	
+	public Button getLoginButton() {
+		return loginButton;
 		
-		homeStage.setScene(homeScene);
-		homeStage.show();
-
-
 	}
+
 }
