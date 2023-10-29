@@ -145,6 +145,16 @@ public class LoginGrid extends GridPane {
 		arrangeComponents();
 		
 		loginButton.setOnAction(event -> handleLoginButtonClick());
+		logoutButton.setOnAction(event -> handleLogoutButtonClick());
+		
+	
+	}
+
+	private void handleLogoutButtonClick() {
+		LoginGrid loginGrid = new LoginGrid();
+		Scene loginScene = new Scene(loginGrid,750,750);
+		homeStage.setScene(loginScene);
+		homeStage.show();
 	}
 
 	private void handleLoginButtonClick() {
