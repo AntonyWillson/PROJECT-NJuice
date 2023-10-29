@@ -1,7 +1,5 @@
 package main;
 
-
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -35,9 +33,6 @@ public class Main extends Application{
 	// Tool Bar
 	ToolBar toolBar;
 	
-	//	HBox hboxToolbar;
-	
-	HBox hboxToolBar;
 	// Button
 	Button logoutButton;
 	
@@ -78,8 +73,6 @@ public class Main extends Application{
 		// Label
 		welcomeLabel = new Label();
 
-		// H box
-		hboxToolBar = new HBox();
 		
 		// Region
 		regionToolBar = new Region();
