@@ -51,9 +51,9 @@ public class RegisterGrid extends GridPane {
 		// VBox
 		vboxUsername = new VBox(10);
 		vboxPassword = new VBox(10);
-		vboxRegisterLabel = new VBox(20);
-		vboxRegisterButton = new VBox(30);
-		vboxTncCheck = new VBox(30);
+		vboxRegisterLabel = new VBox(10);
+		vboxRegisterButton = new VBox(50);
+		vboxTncCheck = new VBox(50);
 	}
 	
 	void components() {
@@ -73,21 +73,21 @@ public class RegisterGrid extends GridPane {
 		
 		// Edit Text
 		registerLabel.setFont(Font.font(null,FontWeight.BOLD,50));
-		NjuiceLabel.setFont(Font.font(null,FontWeight.BOLD,15));
+		NjuiceLabel.setFont(Font.font(null,FontWeight.SEMI_BOLD,15));
 		
 		// VBox
 		vboxUsername.getChildren().addAll(usernameLabel,usernameInput);
 		vboxPassword.getChildren().addAll(passwordLabel,passwordInput);
-		vboxRegisterLabel.getChildren().add(registerLabel);
-		vboxRegisterButton.getChildren().addAll(vboxPassword,registerButton);
+		vboxRegisterLabel.getChildren().addAll(registerLabel,NjuiceLabel);
 		vboxTncCheck.getChildren().add(tncCheck);
+		vboxRegisterButton.getChildren().addAll(registerButton);
+		
 		
 		// Check Box
 		tncCheck.setText("I aggre to the terms and conditions of NJuice!");
 		
 		// Grid Pane
 		this.add(vboxRegisterLabel,0, 0);
-		this.add(NjuiceLabel, 0, 1);
 		this.add(vboxUsername, 0, 2);
 		this.add(vboxPassword, 0, 4);
 		this.add(vboxTncCheck, 0, 5);
@@ -97,6 +97,10 @@ public class RegisterGrid extends GridPane {
 	void arrangecomponents() {
 		this.setVgap(10);
 		this.setHgap(10);
+		
+		vboxRegisterLabel.setAlignment(Pos.CENTER);
+		vboxRegisterButton.setAlignment(Pos.CENTER);
+		
 		this.setAlignment(Pos.CENTER);
 	}
 	

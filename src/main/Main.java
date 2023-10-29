@@ -4,17 +4,19 @@ package main;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.LoginGrid;
 import model.RegisterGrid;
 
 public class Main extends Application{
-	Scene loginScene,registerScene;
-	BorderPane borderLogin,borderRegister,border;
+	Scene loginScene,registerScene,homeScene;
+	BorderPane borderLogin,borderRegister,borderHome;
 	LoginGrid Login;
 	RegisterGrid Register;
 	
@@ -23,12 +25,13 @@ public class Main extends Application{
 	Menu menu1;
 	MenuItem menuItem1;
 	MenuItem menuItem2;
-	
+
 	void initialize() {
 		
 		// Pane
 		borderLogin = new BorderPane();
 		borderRegister = new BorderPane();
+		borderHome = new BorderPane();
 		Register = new RegisterGrid();
 		Login = new LoginGrid();
 		
@@ -41,6 +44,9 @@ public class Main extends Application{
 		// Scene
 		registerScene = new Scene(borderRegister,750,750);
 		loginScene = new Scene(borderLogin,750,750);
+		homeScene = new Scene(borderHome, 750, 750);
+		
+
 	}
 	
 	void components() {
@@ -59,6 +65,7 @@ public class Main extends Application{
 		// Border Register
 		borderRegister.setTop(menuBar);
 		borderRegister.setCenter(Register);
+		
 		
 	}
 	
@@ -85,6 +92,7 @@ public class Main extends Application{
 			mainStage.setScene(registerScene);
 			borderRegister.setTop(menuBar);
 		});
+		
 		
 		mainStage.setScene(registerScene);
 		mainStage.show();
