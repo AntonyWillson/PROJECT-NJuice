@@ -155,7 +155,7 @@ public class Main extends Application{
 			borderLogin.setTop(menuBar);
 		});
 		
-		
+		borderLogin.setTop(menuBar);
 		mainStage.setScene(loginScene);
 		mainStage.show();
 		
