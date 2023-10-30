@@ -156,7 +156,7 @@ public class Main extends Application{
 		});
 		
 		
-		mainStage.setScene(homeScene);
+		mainStage.setScene(loginScene);
 		mainStage.show();
 		
 	}
