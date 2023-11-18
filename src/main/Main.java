@@ -1,6 +1,7 @@
 package main;
 
 import javafx.application.Application;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,7 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
-import model.HomeGrid;
+import model.CustHomeGrid;
 import model.LoginGrid;
 import model.RegisterGrid;
 
@@ -22,7 +23,7 @@ public class Main extends Application{
 	BorderPane borderLogin,borderRegister,borderHome;
 	LoginGrid login;
 	RegisterGrid register;
-	HomeGrid home;
+	CustHomeGrid home;
 	
 	// Menu
 	MenuBar menuBar;	
@@ -44,16 +45,14 @@ public class Main extends Application{
 	
 
 
-	void initialize() {
+	private void initialize() {
 		
 		// Pane
 		borderLogin = new BorderPane();
 		borderRegister = new BorderPane();
 		borderHome = new BorderPane();
 		
-		register = new RegisterGrid();
-		login = new LoginGrid();
-		home = new HomeGrid();
+		home = new CustHomeGrid();
 		
 		//Menu
 		menuBar = new MenuBar();
@@ -81,14 +80,7 @@ public class Main extends Application{
 
 	}
 	
-	void components() {
-		//Menu
-		menu1.setText("Dashboard");
-		menuItem1.setText("Login");
-		menuItem2.setText("Register");
-		
-		menuBar.getMenus().addAll(menu1);
-		menu1.getItems().addAll(menuItem1,menuItem2);
+	private void components() {
 		
 		// Label
 		welcomeLabel.setText("Hi, Antony");
@@ -97,18 +89,6 @@ public class Main extends Application{
 		logoutButton.setText("Logout");
 	
 		
-		// Border Login
-		borderRegister.setTop(menuBar);
-		borderLogin.setCenter(login);
-		
-		// Border Register
-		borderRegister.setTop(menuBar);
-		borderRegister.setCenter(register);
-		
-		// Border Home
-		borderHome.setTop(toolBar);
-		borderHome.setCenter(home);
-		
 		// Tool bar
 		HBox.setHgrow(regionToolBar, Priority.ALWAYS);
 		toolBar.getItems().addAll(logoutButton);
@@ -116,9 +96,12 @@ public class Main extends Application{
 		toolBar.getItems().add(welcomeLabel);
 	}
 	
-	void arrangeComponents() {
+	private void arrangeComponents() {
 		
 	}
+
+	
+	
 	public static void main(String[] args) {
 		launch(args);
 
@@ -131,34 +114,10 @@ public class Main extends Application{
 		components();
 		arrangeComponents();
 		
-		Button loginButton = login.getLoginButton();
-		
-		menuItem1.setOnAction(event ->{
-			mainStage.setScene(loginScene);
-			borderLogin.setTop(menuBar);
-			
-		});
-		
-		menuItem2.setOnAction(event ->{
-			mainStage.setScene(registerScene);
-			borderRegister.setTop(menuBar);
-		});
-		
-		loginButton.setOnAction(event ->{
-			mainStage.setScene(homeScene);
-			borderHome.setTop(toolBar);
-			
-		});
-		
-		logoutButton.setOnAction(event -> {
-			mainStage.setScene(loginScene);
-			borderLogin.setTop(menuBar);
-		});
-		
-		borderLogin.setTop(menuBar);
-		mainStage.setScene(loginScene);
-		mainStage.show();
+		LoginGrid login = new LoginGrid(mainStage);
+		login.show();
 		
 	}
+	
 
 }

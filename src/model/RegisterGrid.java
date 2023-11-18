@@ -1,17 +1,25 @@
 package model;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 
-public class RegisterGrid extends GridPane {
+public class RegisterGrid extends GridPane implements EventHandler<ActionEvent> {
 	
 	private Label registerLabel,NjuiceLabel,usernameLabel,passwordLabel;
 	
@@ -27,6 +35,17 @@ public class RegisterGrid extends GridPane {
 	private VBox vboxRegisterLabel;
 	private VBox vboxRegisterButton;
 	private VBox vboxTncCheck;
+	
+	private BorderPane bp;
+	private Scene registerScene;
+
+	private Stage mainStage;
+	
+	// Menu
+	MenuBar menuBar;	
+	Menu menu1;
+	MenuItem menuItem1;
+	MenuItem menuItem2;
 	
 	void initialize() {
 		// Label
@@ -54,9 +73,27 @@ public class RegisterGrid extends GridPane {
 		vboxRegisterLabel = new VBox(10);
 		vboxRegisterButton = new VBox(50);
 		vboxTncCheck = new VBox(50);
+		
+		//Menu
+		menuBar = new MenuBar();
+		menu1 = new Menu();
+		menuItem1 = new MenuItem();
+		menuItem2 = new MenuItem();
+		
+		//Boder
+		bp = new BorderPane();
+		registerScene = new Scene(bp,800,600);
 	}
 	
 	void components() {
+		//Menu
+		menu1.setText("Dashboard");
+		menuItem1.setText("Login");
+		menuItem2.setText("Register");
+		
+		menuBar.getMenus().addAll(menu1);
+		menu1.getItems().addAll(menuItem1,menuItem2);
+		
 		// Label
 		registerLabel.setText("Register");
 		NjuiceLabel.setText("NJuice");
@@ -92,6 +129,10 @@ public class RegisterGrid extends GridPane {
 		this.add(vboxPassword, 0, 4);
 		this.add(vboxTncCheck, 0, 5);
 		this.add(vboxRegisterButton, 0, 6);
+		
+		// Border
+		bp.setTop(menuBar);
+		bp.setCenter(this);
 	}
 	
 	void arrangecomponents() {
@@ -104,9 +145,30 @@ public class RegisterGrid extends GridPane {
 		this.setAlignment(Pos.CENTER);
 	}
 	
-	public RegisterGrid() {
+	void setEvent() {
+		menuItem1.setOnAction(this);
+		menuItem2.setOnAction(this);
+	}
+	
+	public RegisterGrid(Stage mainStage) {
 		initialize();
 		components();
 		arrangecomponents();
+		setEvent();
+		mainStage.setScene(registerScene);
+		this.mainStage = mainStage;
+	}
+	
+	public void show() {
+		mainStage.show();
+	}
+
+	@Override
+	public void handle(ActionEvent e) {
+		if (e.getSource() == menuItem1) {
+			LoginGrid login = new LoginGrid(mainStage);
+			login.show();
+		}
+		
 	}
 }
