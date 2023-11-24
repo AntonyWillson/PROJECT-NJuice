@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 
 public class RegisterGrid extends GridPane implements EventHandler<ActionEvent> {
 	
-	private Label registerLabel,NjuiceLabel,usernameLabel,passwordLabel;
+	private Label registerLabel,NjuiceLabel,usernameLabel,passwordLabel,errorLabel;
 	
 	private TextField usernameInput;
 	private PasswordField passwordInput;
@@ -53,6 +53,7 @@ public class RegisterGrid extends GridPane implements EventHandler<ActionEvent> 
 		NjuiceLabel = new Label();
 		usernameLabel= new Label();
 		passwordLabel = new Label();
+		errorLabel = new Label();
 		
 		// Input
 		usernameInput = new TextField();
@@ -111,6 +112,7 @@ public class RegisterGrid extends GridPane implements EventHandler<ActionEvent> 
 		// Edit Text
 		registerLabel.setFont(Font.font(null,FontWeight.BOLD,50));
 		NjuiceLabel.setFont(Font.font(null,FontWeight.SEMI_BOLD,15));
+		errorLabel.setStyle("-fx-text-fill: red");
 		
 		// VBox
 		vboxUsername.getChildren().addAll(usernameLabel,usernameInput);
@@ -128,7 +130,8 @@ public class RegisterGrid extends GridPane implements EventHandler<ActionEvent> 
 		this.add(vboxUsername, 0, 2);
 		this.add(vboxPassword, 0, 4);
 		this.add(vboxTncCheck, 0, 5);
-		this.add(vboxRegisterButton, 0, 6);
+		this.add(errorLabel, 0, 6);
+		this.add(vboxRegisterButton, 0, 7);
 		
 		// Border
 		bp.setTop(menuBar);
@@ -148,6 +151,7 @@ public class RegisterGrid extends GridPane implements EventHandler<ActionEvent> 
 	void setEvent() {
 		menuItem1.setOnAction(this);
 		menuItem2.setOnAction(this);
+		registerButton.setOnAction(this);
 	}
 	
 	public RegisterGrid(Stage mainStage) {
@@ -168,6 +172,17 @@ public class RegisterGrid extends GridPane implements EventHandler<ActionEvent> 
 		if (e.getSource() == menuItem1) {
 			LoginGrid login = new LoginGrid(mainStage);
 			login.show();
+		}else if (e.getSource() == registerButton) {
+			if (usernameInput.getText().isEmpty() || passwordInput.getText().isEmpty()) {
+				errorLabel.setText("Please Input all the field");
+			}else if (!tncCheck.isSelected()) {
+				errorLabel.setText("Please click the tnc");
+			}else {
+				
+				LoginGrid login = new LoginGrid(mainStage);
+				login.show();	
+			}
+			
 		}
 		
 	}

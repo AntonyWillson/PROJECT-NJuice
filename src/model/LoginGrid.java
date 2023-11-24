@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 
 public class LoginGrid extends GridPane implements EventHandler<ActionEvent> {
 	
-	private Label loginLabel,NjuiceLabel,usernameLabel,passwordLabel,welcomeLabel;
+	private Label loginLabel,NjuiceLabel,usernameLabel,passwordLabel,errorLabel;
 	
 	private TextField usernameInput;
 	private PasswordField passwordInput;
@@ -57,7 +57,8 @@ public class LoginGrid extends GridPane implements EventHandler<ActionEvent> {
 		NjuiceLabel = new Label();
 		usernameLabel = new Label();
 		passwordLabel = new Label();
-		welcomeLabel = new Label();
+
+		errorLabel = new Label();
 		
 		// Text Field
 		usernameInput = new TextField();
@@ -108,7 +109,7 @@ public class LoginGrid extends GridPane implements EventHandler<ActionEvent> {
 		NjuiceLabel.setText("NJuice");
 		usernameLabel.setText("Username");
 		passwordLabel.setText("Password");
-		welcomeLabel.setText("hi,.......");
+
 		
 		// Text Field
 		usernameInput.setPromptText("Enter Username...");
@@ -121,6 +122,7 @@ public class LoginGrid extends GridPane implements EventHandler<ActionEvent> {
 		// Edit Text
 		loginLabel.setFont(Font.font(null,FontWeight.BOLD,50));
 		NjuiceLabel.setFont(Font.font(null,FontWeight.SEMI_BOLD,15));
+		errorLabel.setStyle("-fx-text-fill: red");
 		
 		// VBox
 		vboxUsername.getChildren().addAll(usernameLabel,usernameInput);
@@ -132,6 +134,7 @@ public class LoginGrid extends GridPane implements EventHandler<ActionEvent> {
 		this.add(vboxLoginLabel,0, 0);
 		this.add(vboxUsername, 0, 2);
 		this.add(vboxPassword, 0, 4);
+		this.add(errorLabel, 0, 5);
 		this.add(vboxLoginButton, 0, 6);
 
 	}
@@ -157,6 +160,7 @@ public class LoginGrid extends GridPane implements EventHandler<ActionEvent> {
 	private void setEvent() {
 		menuItem1.setOnAction(this);
 		menuItem2.setOnAction(this);
+		loginButton.setOnAction(this);
 	}
 
 	
@@ -181,6 +185,18 @@ public class LoginGrid extends GridPane implements EventHandler<ActionEvent> {
 		if (e.getSource() == menuItem2) {
 			RegisterGrid register = new RegisterGrid(mainStage);
 			register.show();
+		}else if (e.getSource() == loginButton) {
+			if (usernameInput.getText().isEmpty() || passwordInput.getText().isEmpty()) {
+				errorLabel.setText("Please Input all the field");
+			}else if (usernameInput.getText().equals("admin")) {
+				AdminViewTrans admin = new AdminViewTrans(mainStage);
+				admin.show();
+			}else if (usernameInput.getText().equals("customer")) {
+				CustHomeGrid cust = new CustHomeGrid(mainStage);
+				cust.show();
+			}
+				
+			
 		}
 		
 	}
