@@ -184,18 +184,18 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 	void CreateTable() {
 		// Product Table
 		TableColumn<Products, String> jIdCol = new TableColumn<>("Juice ID");
-		jIdCol.setCellValueFactory(new PropertyValueFactory<Products, String>("Juice Id"));
+		jIdCol.setCellValueFactory(new PropertyValueFactory<Products, String>("jIdCol"));
 		jIdCol.setMinWidth(manageScene.getWidth()/8);
 
 		TableColumn<Products, String> jName = new TableColumn<>("Juice Name");
-		jName.setCellValueFactory(new PropertyValueFactory<Products, String>("Juice Name"));
+		jName.setCellValueFactory(new PropertyValueFactory<Products, String>("jNameCol"));
 		jName.setMinWidth(manageScene.getWidth()/8);
 		TableColumn<Products, Integer> priceCol = new TableColumn<>("Price");
-		priceCol.setCellValueFactory(new PropertyValueFactory<Products, Integer>("Price"));
+		priceCol.setCellValueFactory(new PropertyValueFactory<Products, Integer>("priceCol"));
 		priceCol.setMinWidth(manageScene.getWidth()/8);
 
 		TableColumn<Products, String> jDescCol = new TableColumn<>("Juice Description");
-		jDescCol.setCellValueFactory(new PropertyValueFactory<Products, String>("Juice Description"));
+		jDescCol.setCellValueFactory(new PropertyValueFactory<Products, String>("jDescCol"));
 		jDescCol.setMinWidth(manageScene.getWidth()/4);
 		tableProducts.getColumns().addAll(jIdCol,jName,priceCol,jDescCol);
 	}

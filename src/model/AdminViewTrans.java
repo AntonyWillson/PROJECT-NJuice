@@ -72,28 +72,28 @@ public class AdminViewTrans extends GridPane implements EventHandler<ActionEvent
 	void CreateTable() {
 		//TRansaction
 		TableColumn<Transaction, String> idCol = new TableColumn<>("Transaction Id");
-		idCol.setCellValueFactory(new PropertyValueFactory<Transaction, String>("Transaction Id"));
+		idCol.setCellValueFactory(new PropertyValueFactory<Transaction, String>("id"));
 		idCol.setMinWidth(adminScene.getWidth()/5);
 		TableColumn<Transaction, String> paymentCol = new TableColumn<>("Payment Type");
-		paymentCol.setCellValueFactory(new PropertyValueFactory<Transaction, String>("Payment Type"));
+		paymentCol.setCellValueFactory(new PropertyValueFactory<Transaction, String>("payment"));
 		paymentCol.setMinWidth(adminScene.getWidth()/5);
 		TableColumn<Transaction, String> nameCol = new TableColumn<>("Username");
-		nameCol.setCellValueFactory(new PropertyValueFactory<Transaction, String>("Username"));
+		nameCol.setCellValueFactory(new PropertyValueFactory<Transaction, String>("name"));
 		nameCol.setMinWidth(adminScene.getWidth()/5);
 		table.getColumns().addAll(idCol,paymentCol,nameCol);
 		
 		//Detail
 		TableColumn<Detail, String> idCol1 = new TableColumn<>("Transaction Id");
-		idCol1.setCellValueFactory(new PropertyValueFactory<Detail, String>("Transaction Id"));
+		idCol1.setCellValueFactory(new PropertyValueFactory<Detail, String>("idCol1"));
 		idCol1.setMinWidth(adminScene.getWidth()/8);
 		TableColumn<Detail, String> jIdCol = new TableColumn<>("Juice ID");
-		jIdCol.setCellValueFactory(new PropertyValueFactory<Detail, String>("Juice ID"));
+		jIdCol.setCellValueFactory(new PropertyValueFactory<Detail, String>("jIdCol"));
 		jIdCol.setMinWidth(adminScene.getWidth()/8);
 		TableColumn<Detail, String> jName = new TableColumn<>("Juice Name");
-		jName.setCellValueFactory(new PropertyValueFactory<Detail, String>("Juice Name"));
+		jName.setCellValueFactory(new PropertyValueFactory<Detail, String>("jName"));
 		jName.setMinWidth(adminScene.getWidth()/4);
 		TableColumn<Detail, Integer> qty = new TableColumn<>("Quantity");
-		qty.setCellValueFactory(new PropertyValueFactory<Detail, Integer>("Quantity"));
+		qty.setCellValueFactory(new PropertyValueFactory<Detail, Integer>("qty"));
 		qty.setMinWidth(adminScene.getWidth()/8);
 		tableDetail.getColumns().addAll(idCol1,jIdCol,jName,qty);
 		
