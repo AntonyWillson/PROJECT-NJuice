@@ -152,6 +152,7 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		checkoutButton.setOnAction(this);
 	}
 	
+	
 	public CustHomeGrid(Stage mainStage) {
 		initialize();
 		components();
