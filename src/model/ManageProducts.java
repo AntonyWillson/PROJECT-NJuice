@@ -204,6 +204,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		this.setAlignment(Pos.CENTER);
 		vbox.setAlignment(Pos.CENTER);
 		this.setVgap(20);
+		vbox.setSpacing(20);
 		
 		//Hbox
 		hbox.setSpacing(20);
