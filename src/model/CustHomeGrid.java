@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -42,6 +43,9 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 	//List
 	private ListView<String> cartList;
 	
+	//Stack Pane
+	StackPane layout;
+	
 
 	void initialize() {
 		
@@ -63,6 +67,8 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		checkoutButton = new Button();
 		logoutButton = new Button();
 		
+		// Stack Pane
+		layout = new StackPane();
 		
 		// Toolbar
 		toolbar = new ToolBar();
@@ -116,6 +122,9 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		
 		//list
 		cartList.getItems().addAll("1x Avocado [Rp 75.000]");
+		
+	
+
 		
 		// Grid Pane
 		this.add(vBoxCartLabel, 0, 0); 
@@ -174,6 +183,10 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 			login.show();
 		}else if (e.getSource() == deleteButton) {
 			cartList.getItems().remove(cartList.getSelectionModel().getSelectedItem());
+		}else if (e.getSource() == addButton) {
+			AddItem add = new AddItem(mainStage);
+			
+			layout.getChildren().add(add);
 		}
 		
 	}
