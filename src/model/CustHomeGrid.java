@@ -15,7 +15,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -110,11 +109,16 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		logoutButton.setText("Logout");
 		
 		// VBox
-		// cart ada isi
-		vBoxCartLabel.getChildren().addAll(cartLabel,cartList);
+		//list
+		cartList.getItems().addAll("1x Avocado [Rp 75.000]");
 		
-		//cart koosng
-//		vBoxCartLabel.getChildren().addAll(cartLabel,descCartLabel);
+		if (cartList.getItems().isEmpty()) {
+			vBoxCartLabel.getChildren().addAll(cartLabel,descCartLabel);	
+		}else {
+			vBoxCartLabel.getChildren().addAll(cartLabel,cartList);
+			
+		}
+		
 		
 		// HBox
 		hBoxButton.getChildren().addAll(addButton,deleteButton,checkoutButton);
@@ -125,8 +129,7 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		toolbar.getItems().add(regionToolbar);
 		toolbar.getItems().add(welcomeLabel);
 		
-		//list
-		cartList.getItems().addAll("1x Avocado [Rp 75.000]");
+
 		
 	
 
