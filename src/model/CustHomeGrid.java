@@ -1,9 +1,11 @@
 package model;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -43,8 +45,9 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 	//List
 	private ListView<String> cartList;
 	
-	//Stack Pane
-	StackPane layout;
+
+	//Alert
+	Alert alert;
 	
 
 	void initialize() {
@@ -68,7 +71,7 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		logoutButton = new Button();
 		
 		// Stack Pane
-		layout = new StackPane();
+
 		
 		// Toolbar
 		toolbar = new ToolBar();
@@ -79,6 +82,8 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		//List
 		cartList = new ListView<>();
 		
+		// Alert
+		alert = new Alert(Alert.AlertType.ERROR);
 		
 		//Border
 		bp = new BorderPane();
@@ -182,11 +187,23 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 			LoginGrid login = new LoginGrid(mainStage);
 			login.show();
 		}else if (e.getSource() == deleteButton) {
+			String selectedValue = cartList.getSelectionModel().getSelectedItem();
+			if (selectedValue != null) {
 			cartList.getItems().remove(cartList.getSelectionModel().getSelectedItem());
+			}else {
+				alert.setTitle("Error");
+				alert.setContentText("Please choose which juice to delete");
+				alert.show();				
+			}
 		}else if (e.getSource() == addButton) {
-			AddItem add = new AddItem(mainStage);
-			
-			layout.getChildren().add(add);
+
+		}else if (e.getSource() == checkoutButton) {
+			ObservableList<String> items = cartList.getItems();
+			if (items.isEmpty()) {
+				alert.setTitle("Error");
+				alert.setContentText("Your cart is empty");
+				alert.show();
+			}
 		}
 		
 	}
