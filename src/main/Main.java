@@ -19,23 +19,7 @@ import model.LoginGrid;
 
 
 public class Main extends Application{
-
 	
-
-
-	private void initialize() {
-
-	}
-	
-	private void components() {
-		
-		
-	}
-	
-	private void arrangeComponents() {
-		
-	}
-
 	
 	
 	public static void main(String[] args) {
@@ -46,9 +30,7 @@ public class Main extends Application{
 
 	@Override
 	public void start(Stage mainStage) throws Exception {
-		initialize();
-		components();
-		arrangeComponents();
+
 		
 		LoginGrid login = new LoginGrid(mainStage);
 		login.show();
