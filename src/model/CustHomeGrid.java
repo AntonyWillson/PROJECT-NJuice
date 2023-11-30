@@ -15,10 +15,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import jfxtras.labs.scene.control.window.Window;
 
 public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> {
 	private Label cartLabel,descCartLabel,welcomeLabel;
@@ -44,10 +46,14 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 	//List
 	private ListView<String> cartList;
 	
-
+	// Window 
+//	Window window;
+	
 	//Alert
 	Alert alert;
 	
+	// StackPane
+//	StackPane popUp;
 
 	void initialize() {
 		
@@ -86,6 +92,12 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		
 		//Border
 		bp = new BorderPane();
+		
+//		// Window
+//		window = new Window();
+//		
+//		// StackPane
+//		popUp = new StackPane();
 		
 		// Scene
 		custHomeScene = new Scene(bp,800,600);
@@ -130,8 +142,13 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		toolbar.getItems().add(welcomeLabel);
 		
 
+//		// Window
+//		window.getContentPane().getChildren().addAll(addButton);
 		
 	
+//		// Stack Pane
+//		popUp.getChildren().add(window);
+//		popUp.setAlignment(Pos.CENTER);
 
 		
 		// Grid Pane

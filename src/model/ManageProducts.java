@@ -179,6 +179,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 	void AddComponents() {
 		bp.setTop(menuBar);
 		bp.setCenter(this);
+		
 	}
 
 	void CreateTable() {
