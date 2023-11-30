@@ -1,6 +1,7 @@
 package model;
 
 
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -73,6 +74,7 @@ public class AddItem extends GridPane {
 		hb = new HBox();
 		
 		// Scene
+		scene = new Scene(bp,600,800);
 		
     }
 	
@@ -87,23 +89,34 @@ public class AddItem extends GridPane {
     	//Button
     	addBtn.setText("Add Item");
     	
+    	//Spinner
+    	Qty.setValueFactory(QtySpinnerFactory);
+    	
     	//Hbox
     	hb.getChildren().addAll(juiceName,juicePrice);
     	
+    	//Vbox
+    	vb.getChildren().addAll(juiceLabel,hb,juiceDesc,juiceQty,Qty,juiceTotPrice,addBtn);
     	
     	
     	
     }
 	
     void ArrangeComponents() {
+       bp.setCenter(vb);
+       hb.setAlignment(Pos.CENTER);
+       vb.setAlignment(Pos.CENTER);
        
+       hb.setSpacing(20);
+       vb.setSpacing(20);
     }
 
     public AddItem(Stage mainStage) {
-        this.mainStage = mainStage;
         Initialize();
         Components();
         ArrangeComponents();
+        mainStage.setScene(scene);
+        this.mainStage = mainStage;
     }
 
     public void show() {
