@@ -212,7 +212,7 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		}else if (e.getSource() == deleteButton) {
 			String selectedValue = cartList.getSelectionModel().getSelectedItem();
 			if (selectedValue != null) {
-			cartList.getItems().remove(cartList.getSelectionModel().getSelectedItem());
+			cartList.getItems().remove(selectedValue);
 			}else {
 				alert.setTitle("Error");
 				alert.setContentText("Please choose which juice to delete");
