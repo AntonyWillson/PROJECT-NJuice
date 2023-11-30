@@ -93,9 +93,11 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		//Border
 		bp = new BorderPane();
 		
-//		// Window
+////		// Window
 //		window = new Window();
-//		
+//		window.setMaxHeight(100);
+//		window.setMaxWidth(100);
+	
 //		// StackPane
 //		popUp = new StackPane();
 		
@@ -143,7 +145,7 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		
 
 //		// Window
-//		window.getContentPane().getChildren().addAll(addButton);
+//		window.getContentPane().getChildren().addAll(vBoxCartLabel);
 		
 	
 //		// Stack Pane
@@ -158,6 +160,7 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		// Border Pane
 		bp.setTop(toolbar);
 		bp.setCenter(this);
+//		bp.setRight(window);
 		
 		
 	}
