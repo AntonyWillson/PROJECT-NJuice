@@ -143,6 +143,7 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
 	}
 	
 	public void SetEvent() {
+		addBtn.setOnAction(this);
 		
 	}
 
@@ -166,9 +167,9 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
 
 	@Override
 	public void handle(ActionEvent e) {
-		addBtn.setOnAction(this);
 		if (e.getSource() == addBtn) {
-			
+			Stage popupStage = (Stage) mainStage.getScene().getWindow();
+			popupStage.close();
 			
 		}
 		

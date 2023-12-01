@@ -227,6 +227,9 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 				alert.setTitle("Error");
 				alert.setContentText("Your cart is empty");
 				alert.show();
+			}else {
+				CheckoutItem checkout = new CheckoutItem(mainStage);
+				checkout.show();
 			}
 		}
 		
