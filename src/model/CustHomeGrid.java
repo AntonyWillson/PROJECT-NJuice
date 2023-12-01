@@ -209,6 +209,7 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		if (e.getSource() == logoutButton) {
 			LoginGrid login = new LoginGrid(mainStage);
 			login.show();
+			
 		}else if (e.getSource() == deleteButton) {
 			String selectedValue = cartList.getSelectionModel().getSelectedItem();
 			if (selectedValue != null) {
