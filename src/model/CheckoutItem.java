@@ -1,7 +1,11 @@
 package model;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -17,7 +21,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-public class CheckoutItem extends GridPane {
+public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> {
 	
 	private Stage mainStage;
 
@@ -39,6 +43,9 @@ public class CheckoutItem extends GridPane {
 	
 	// Vbox
 	VBox vb,vb2,vb3,vb4,vb5;
+	
+	//Alert
+	Alert alert;
 	
 	// Hbox
 	HBox hb,hb2;
@@ -167,15 +174,34 @@ public class CheckoutItem extends GridPane {
 
 	}
 	
+	public void SetEvent() {
+		cancelBtn.setOnAction(this);
+		checkoutBtn.setOnAction(this);
+	}
+	
 	public CheckoutItem(Stage mainStage) {
 		Initialize();
 		Components();
 		ArrangeComponents();
+		SetEvent();
 		mainStage.setScene(checkoutScene);
 		this.mainStage = mainStage;
 	}
 	
 	public void show() {
+		
+	}
+
+	@Override
+	public void handle(ActionEvent e) {
+		if (e.getSource() == checkoutBtn) {
+			if (payGroup.getSelectedToggle() == null) {
+				alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setContentText("");
+				alert.show();
+			}
+		}
 		
 	}
 

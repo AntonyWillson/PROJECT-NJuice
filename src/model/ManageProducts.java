@@ -4,6 +4,7 @@ package model;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,6 +23,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -35,15 +37,17 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 	MenuItem menuItem2,menuItem3;
 
 	//Vbox
-	VBox vbox;
+	VBox vbox,vb2,vb3;
 	
 	//hbox
-	HBox hbox,hbox1,hbox2,hbox3;
+	HBox hbox,hbox1,hbox2,hbox3,hb,hb2;
 	
 	//Buitton
 	Button insertBtn,updateBtn,removeBtn;
 	
-
+	//Region
+	Region space,space2;
+	
 	//Border
 	BorderPane bp;
 
@@ -78,14 +82,22 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		menuItem2 = new MenuItem();
 		menuItem3 = new MenuItem();
 
+		//Region
+		space = new Region();
+		space2 = new Region();
+		
 		//Vbox
 		vbox = new VBox();
+		vb2 = new VBox();
+		vb3 = new VBox();
 		
 		// Hbox
 		hbox = new HBox();
 		hbox1 = new HBox();
 		hbox2 = new HBox();
 		hbox3 = new HBox();
+		hb = new HBox();
+		hb2 = new HBox();
 		
 		//Button
 		insertBtn = new Button();
@@ -155,30 +167,33 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		//Spinner
 		price.setValueFactory(priceSpinnerFactory);
 		
+		
+		hb2.getChildren().addAll(space,tableProducts,space2);
+		
 		//Vbox
-		vbox.getChildren().addAll(manageLabel,tableProducts);
+		vbox.getChildren().addAll(manageLabel,hb2);
+		vb2.getChildren().addAll(insertBtn,updateBtn,removeBtn);
 		
 		//Hbox
 		hbox.getChildren().addAll(idLabel,productId);
 		hbox1.getChildren().addAll(priceLabel,price);
 		hbox2.getChildren().addAll(nameLabel,nameField);
 		hbox3.getChildren().addAll(descLabel,descArea);
-
+		
+		hb.getChildren().addAll(this,vb2);
+		
 		//Grid
-		this.add(vbox, 0, 0);
-		this.add(hbox, 0, 1);
-		this.add(insertBtn, 1, 1);
-		this.add(hbox1, 0, 2);
-		this.add(updateBtn, 1, 2);
-		this.add(hbox2, 0, 3);
-		this.add(removeBtn, 1, 3);
-		this.add(hbox3, 0, 4);
-//		this.add(productId, 1, 1);
+		this.add(hbox, 0, 0);
+		this.add(hbox1, 0, 1);
+		this.add(hbox2, 0, 2);
+		this.add(hbox3, 0, 3);
+		
+		vb3.getChildren().addAll(vbox,hb);
 	}
 
 	void AddComponents() {
 		bp.setTop(menuBar);
-		bp.setCenter(this);
+		bp.setCenter(vb3);
 		
 	}
 
@@ -212,15 +227,25 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		hbox1.setSpacing(140);
 		hbox2.setSpacing(90);
 		hbox3.setSpacing(60);
+		hb.setSpacing(10);
+		hb.setAlignment(Pos.CENTER);
+		hb2.setAlignment(Pos.CENTER);
+		
+		vb2.setAlignment(Pos.CENTER);
+		vb2.setSpacing(20);
+		vb3.setSpacing(10);
+		
+//		vbox.setPadding(new Insets(0,0,20,0));
+		vb3.setPadding(new Insets(0,0,20,0));
 		
 		//Text Field
 		nameField.setPrefWidth(300);
 		descArea.setPrefWidth(300);
 		
 		// BUtton
-		insertBtn.setPrefSize(80, 130);
-		updateBtn.setPrefSize(100, 130);
-		removeBtn.setPrefSize(100, 130);
+		insertBtn.setPrefSize(100, 50);
+		updateBtn.setPrefSize(100, 50);
+		removeBtn.setPrefSize(100, 50);
 	}
 
 
