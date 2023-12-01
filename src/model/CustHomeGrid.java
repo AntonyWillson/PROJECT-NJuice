@@ -49,7 +49,7 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 	private ListView<String> cartList;
 	
 	// StackPane
-
+	StackPane popUp;
 	Scene scene2;
 	
 	Stage popupStage;
@@ -102,6 +102,8 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		// Scene
 		custHomeScene = new Scene(bp,800,600);
 		
+		
+		popUp = new StackPane();
 		
 	}
 	
@@ -178,11 +180,6 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		checkoutButton.setOnAction(this);
 	}
 	
-	  public Stage getPopupStage() {
-	        return popupStage;
-	        
-	    }
-	
 	
 	public CustHomeGrid(Stage mainStage) {
 		initialize();
@@ -214,13 +211,15 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 				alert.show();				
 			}
 		}else if (e.getSource() == addButton) {
-			
 			AddItem add = new AddItem(mainStage);
+			add.show();
+			
 			scene2 = add.getScenes();
 			popupStage.setScene(scene2);
 			popupStage.show();
-		
-
+			
+			
+			popupStage.close();
 			
 		}else if (e.getSource() == checkoutButton) {
 			ObservableList<String> items = cartList.getItems();
@@ -228,7 +227,6 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 				alert.setTitle("Error");
 				alert.setContentText("Your cart is empty");
 				alert.show();
-				
 			}else {
 				CheckoutItem checkout = new CheckoutItem(mainStage);
 				checkout.show();
