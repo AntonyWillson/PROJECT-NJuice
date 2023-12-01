@@ -170,7 +170,7 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
 		if (e.getSource() == addBtn) {
 			CustHomeGrid home = new CustHomeGrid(mainStage);
 			if (home != null && home.getPopupStage() != null) {
-				home.getPopupStage().close();
+				home.getPopupStage().close(); 
             } else {
                 System.out.println("popupStage is null!");
             }
