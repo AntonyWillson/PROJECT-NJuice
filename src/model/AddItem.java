@@ -91,7 +91,7 @@ public class AddItem extends GridPane {
 		popUp = new StackPane();
 
 		// Scene
-		scene = new Scene(popUp,250,400);
+		scene = new Scene(popUp,400,400);
 
 	}
 
