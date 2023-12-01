@@ -19,7 +19,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import jfxtras.labs.scene.control.window.Window;
 
 public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> {
@@ -46,14 +48,15 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 	//List
 	private ListView<String> cartList;
 	
-	// Window 
-//	Window window;
+	// StackPane
+	StackPane popUp;
+	Scene scene2;
+	
+	Stage popupStage;
 	
 	//Alert
 	Alert alert;
 	
-	// StackPane
-//	StackPane popUp;
 
 	void initialize() {
 		
@@ -75,8 +78,10 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		checkoutButton = new Button();
 		logoutButton = new Button();
 		
-		// Stack Pane
-
+		// stage
+		popupStage = new Stage();
+		popupStage.initModality(Modality.APPLICATION_MODAL);
+		popupStage.initStyle(StageStyle.UTILITY);
 		
 		// Toolbar
 		toolbar = new ToolBar();
@@ -93,16 +98,12 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		//Border
 		bp = new BorderPane();
 		
-////		// Window
-//		window = new Window();
-//		window.setMaxHeight(100);
-//		window.setMaxWidth(100);
-	
-//		// StackPane
-//		popUp = new StackPane();
 		
 		// Scene
 		custHomeScene = new Scene(bp,800,600);
+		
+		
+		popUp = new StackPane();
 		
 	}
 	
@@ -142,16 +143,7 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		toolbar.getItems().addAll(logoutButton);
 		toolbar.getItems().add(regionToolbar);
 		toolbar.getItems().add(welcomeLabel);
-		
-
-//		// Window
-//		window.getContentPane().getChildren().addAll(vBoxCartLabel);
-		
 	
-//		// Stack Pane
-//		popUp.getChildren().add(window);
-//		popUp.setAlignment(Pos.CENTER);
-
 		
 		// Grid Pane
 		this.add(vBoxCartLabel, 0, 0); 
@@ -160,7 +152,6 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		// Border Pane
 		bp.setTop(toolbar);
 		bp.setCenter(this);
-//		bp.setRight(window);
 		
 		
 	}
@@ -222,6 +213,10 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 			AddItem add = new AddItem(mainStage);
 			add.show();
 			
+			scene2 = add.getScenes();
+			popupStage.setScene(scene2);
+			popupStage.show();
+				
 		}else if (e.getSource() == checkoutButton) {
 			ObservableList<String> items = cartList.getItems();
 			if (items.isEmpty()) {
