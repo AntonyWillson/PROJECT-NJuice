@@ -81,7 +81,7 @@ public class RegisterGrid extends GridPane implements EventHandler<ActionEvent> 
 		menuItem1 = new MenuItem();
 		menuItem2 = new MenuItem();
 		
-		//Boder
+		//Border
 		bp = new BorderPane();
 		registerScene = new Scene(bp,800,600);
 	}
