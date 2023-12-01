@@ -81,7 +81,7 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		// stage
 		popupStage = new Stage();
 		popupStage.initModality(Modality.APPLICATION_MODAL);
-		popupStage.initStyle(StageStyle.UTILITY);
+
 		
 		// Toolbar
 		toolbar = new ToolBar();
@@ -217,7 +217,10 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 			scene2 = add.getScenes();
 			popupStage.setScene(scene2);
 			popupStage.show();
-				
+			
+			
+			popupStage.close();
+			
 		}else if (e.getSource() == checkoutButton) {
 			ObservableList<String> items = cartList.getItems();
 			if (items.isEmpty()) {
