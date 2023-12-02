@@ -39,7 +39,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 	MenuItem menuItem2,menuItem3;
 
 	//Vbox
-	VBox vbox,vb2,vb3;
+	VBox vbox,vb2,vb3,vb4;
 	
 	//hbox
 	HBox hbox,hbox1,hbox2,hbox3,hb,hb2;
@@ -73,7 +73,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 
 
 	//Label
-	Label manageLabel,idLabel,nameLabel,priceLabel,descLabel;
+	Label manageLabel,idLabel,nameLabel,priceLabel,descLabel,idLabel2;
 
 	//Table
 	TableView<Products> tableProducts;
@@ -95,6 +95,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		vbox = new VBox();
 		vb2 = new VBox();
 		vb3 = new VBox();
+		vb4 = new VBox();
 		
 		// Hbox
 		hbox = new HBox();
@@ -115,6 +116,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		nameLabel = new Label();
 		descLabel = new Label();
 		priceLabel = new Label();
+		idLabel2 = new Label();
 		
 		
 
@@ -163,7 +165,8 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 
 		// Label
 		manageLabel.setText("Manage Products");
-		idLabel.setText("Product ID to delete/remove");
+		idLabel.setText("Product ID");
+		idLabel2.setText("to delete/remove : ");
 		priceLabel.setText("Price:");
 		nameLabel.setText("Product Name:");
 		descLabel.setText("Product Description:");
@@ -183,9 +186,10 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		//Vbox
 		vbox.getChildren().addAll(manageLabel,hb2);
 		vb2.getChildren().addAll(insertBtn,updateBtn,removeBtn);
+		vb4.getChildren().addAll(idLabel,idLabel2);
 		
 		//Hbox
-		hbox.getChildren().addAll(idLabel,productId);
+		hbox.getChildren().addAll(vb4,productId);
 		hbox1.getChildren().addAll(priceLabel,price);
 		hbox2.getChildren().addAll(nameLabel,nameField);
 		hbox3.getChildren().addAll(descLabel,descArea);
@@ -233,7 +237,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		vbox.setSpacing(20);
 		
 		//Hbox
-		hbox.setSpacing(20);
+		hbox.setSpacing(68);
 		hbox1.setSpacing(140);
 		hbox2.setSpacing(90);
 		hbox3.setSpacing(60);

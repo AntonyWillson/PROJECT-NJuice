@@ -178,6 +178,7 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 	public void SetEvent() {
 		cancelBtn.setOnAction(this);
 		checkoutBtn.setOnAction(this);
+		logoutBtn.setOnAction(this);
 	
 		
 	}

@@ -29,6 +29,7 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
 
 	// Stage
 	private Stage mainStage;
+	private Stage popupStage;
 
 	//Label
 	Label juiceLabel,juicePrice,juiceDesc,juiceQty,juiceTotPrice;
@@ -147,12 +148,13 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
 		
 	}
 
-	public AddItem(Stage mainStage) {
+	public AddItem(Stage mainStage, Stage popupStage) {
 		Initialize();
 		Components();
 		ArrangeComponents();
 		SetEvent();
-
+		
+		this.popupStage = popupStage;
 		this.mainStage = mainStage;
 
 	}
@@ -169,12 +171,8 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
 	public void handle(ActionEvent e) {
 		if (e.getSource() == addBtn) {
 			CustHomeGrid home = new CustHomeGrid(mainStage);
-			if (home != null ) {
-				home.popupStage.close();
-            } else {
-                System.out.println("popupStage is null!");
-            }
-	
+				popupStage.close();
+            
 		}
 		
 	}

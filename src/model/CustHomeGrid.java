@@ -211,15 +211,13 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 				alert.show();				
 			}
 		}else if (e.getSource() == addButton) {
-			AddItem add = new AddItem(mainStage);
+			AddItem add = new AddItem(mainStage,popupStage);
 			add.show();
 			
 			scene2 = add.getScenes();
 			popupStage.setScene(scene2);
 			popupStage.show();
 			
-			
-			popupStage.close();
 			
 		}else if (e.getSource() == checkoutButton) {
 			ObservableList<String> items = cartList.getItems();
