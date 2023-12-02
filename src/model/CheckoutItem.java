@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -177,6 +178,8 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 	public void SetEvent() {
 		cancelBtn.setOnAction(this);
 		checkoutBtn.setOnAction(this);
+	
+		
 	}
 	
 	public CheckoutItem(Stage mainStage) {
@@ -198,9 +201,20 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 			if (payGroup.getSelectedToggle() == null) {
 				alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Error");
-				alert.setContentText("");
+				alert.setContentText("Please select payment type");
+				alert.show();
+			}else{
+				alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Message");
+				alert.setContentText("All item checked out succesfully,please procceed your...");
 				alert.show();
 			}
+		}else if (e.getSource() == cancelBtn) {
+			CustHomeGrid home = new CustHomeGrid(mainStage);
+			home.show();
+		}else if (e.getSource() == logoutBtn) {
+			LoginGrid login = new LoginGrid(mainStage);
+			login.show();
 		}
 		
 	}
