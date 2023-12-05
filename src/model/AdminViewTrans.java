@@ -73,14 +73,17 @@ public class AdminViewTrans extends GridPane implements EventHandler<ActionEvent
 		//TRansaction
 		TableColumn<Transaction, String> idCol = new TableColumn<>("Transaction Id");
 		idCol.setCellValueFactory(new PropertyValueFactory<Transaction, String>("id"));
-		idCol.setMinWidth(adminScene.getWidth()/5);
+		idCol.setMinWidth(100);
 		TableColumn<Transaction, String> paymentCol = new TableColumn<>("Payment Type");
 		paymentCol.setCellValueFactory(new PropertyValueFactory<Transaction, String>("payment"));
-		paymentCol.setMinWidth(adminScene.getWidth()/5);
+		paymentCol.setMinWidth(100);
 		TableColumn<Transaction, String> nameCol = new TableColumn<>("Username");
 		nameCol.setCellValueFactory(new PropertyValueFactory<Transaction, String>("name"));
-		nameCol.setMinWidth(adminScene.getWidth()/5);
+		nameCol.setMinWidth(100);
+		
 		table.getColumns().addAll(idCol,paymentCol,nameCol);
+		
+		table.setMaxWidth(300);
 		
 		//Detail
 		TableColumn<Detail, String> idCol1 = new TableColumn<>("Transaction Id");
@@ -91,10 +94,12 @@ public class AdminViewTrans extends GridPane implements EventHandler<ActionEvent
 		jIdCol.setMinWidth(adminScene.getWidth()/8);
 		TableColumn<Detail, String> jName = new TableColumn<>("Juice Name");
 		jName.setCellValueFactory(new PropertyValueFactory<Detail, String>("jName"));
-		jName.setMinWidth(adminScene.getWidth()/4);
+		jName.setMinWidth(adminScene.getWidth()/5);
 		TableColumn<Detail, Integer> qty = new TableColumn<>("Quantity");
 		qty.setCellValueFactory(new PropertyValueFactory<Detail, Integer>("qty"));
 		qty.setMinWidth(adminScene.getWidth()/8);
+		tableDetail.setPlaceholder(new Label("Click on a transaction header to view the transaction detail"));
+		
 		tableDetail.getColumns().addAll(idCol1,jIdCol,jName,qty);
 		
 	}
