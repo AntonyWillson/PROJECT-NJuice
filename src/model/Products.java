@@ -5,6 +5,7 @@ public class Products {
 	private String jNameCol;
 	private int priceCol;
 	private String jDescCol;
+	
 	public Products(String jId, String jName, int price, String jDesc) {
 		super();
 		this.jIdCol = jId;
