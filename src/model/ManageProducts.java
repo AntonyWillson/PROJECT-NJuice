@@ -332,7 +332,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 				
 			}
 		}else if (e.getSource() == removeBtn) {
-			if (nameField.getText().isEmpty() || descArea.getText().isEmpty()) {
+			if (productId.getValue() == null) {
 				alert.show();
 			}else {
 				 String selectedProductId = productId.getValue();
