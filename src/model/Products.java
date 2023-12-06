@@ -1,42 +1,52 @@
 package model;
-
 public class Products {
-	private String jIdCol;
-	private String jNameCol;
-	private int priceCol;
-	private String jDescCol;
+
+	public String juiceID;
+	public String juiceName;
+	public int juicePrice;
+	public String juiceDescription;
 	
-	public Products(String jId, String jName, int price, String jDesc) {
+	public Products(String juiceID, String juiceName, int juicePrice, String juiceDescription) {
 		super();
-		this.jIdCol = jId;
-		this.jNameCol = jName;
-		this.priceCol = price;
-		this.jDescCol = jDesc;
+		this.juiceID = juiceID;
+		this.juiceName = juiceName;
+		this.juicePrice = juicePrice;
+		this.juiceDescription = juiceDescription;
 	}
-	public String getjId() {
-		return jIdCol;
+
+	public String getJuiceID() {
+		return juiceID;
 	}
-	public void setjId(String jId) {
-		this.jIdCol = jId;
+
+	public void setJuiceID(String juiceID) {
+		this.juiceID = juiceID;
 	}
-	public String getjName() {
-		return jNameCol;
+
+	public String getJuiceName() {
+		return juiceName;
 	}
-	public void setjName(String jName) {
-		this.jNameCol = jName;
+
+	public void setJuiceName(String juiceName) {
+		this.juiceName = juiceName;
 	}
-	public int getPrice() {
-		return priceCol;
+
+	public int getJuicePrice() {
+		return juicePrice;
 	}
-	public void setPrice(int price) {
-		this.priceCol = price;
+
+	public void setJuicePrice(int juicePrice) {
+		this.juicePrice = juicePrice;
 	}
-	public String getjDesc() {
-		return jDescCol;
+
+	public String getJuiceDescription() {
+		return juiceDescription;
 	}
-	public void setjDesc(String jDesc) {
-		this.jDescCol = jDesc;
+
+	public void setJuiceDescription(String juiceDescription) {
+		this.juiceDescription = juiceDescription;
 	}
+	
+	
 	
 	
 }
