@@ -78,6 +78,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 	//Alert
 	Alert alert;
 
+	// Observable list
 	private ObservableList<Products> productsList;
 	 
 	//Label
@@ -126,6 +127,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		priceLabel = new Label();
 		idLabel2 = new Label();
 		
+		// Obeervable List
 		productsList = FXCollections.observableArrayList();
 
 		//Table
@@ -343,6 +345,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 			        for (Products product : productsList) {
 			            if (product.getJuiceID().equals(selectedProductId)) {
 			                selectedProduct = product;
+			                System.out.println("siuhadu");
 			                break;
 			            }
 			        }
