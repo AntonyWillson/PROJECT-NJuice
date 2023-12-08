@@ -21,6 +21,8 @@ import javafx.stage.Stage;
 
 public class RegisterGrid extends GridPane implements EventHandler<ActionEvent> {
 	
+	private static int i = 0;
+	
 	private Label registerLabel,NjuiceLabel,usernameLabel,passwordLabel,errorLabel;
 	
 	private TextField usernameInput;
@@ -178,7 +180,10 @@ public class RegisterGrid extends GridPane implements EventHandler<ActionEvent> 
 			}else if (!tncCheck.isSelected()) {
 				errorLabel.setText("Please click the tnc");
 			}else {
-				
+				i++;
+				String id = String.format("CU%03d", i);
+				System.out.println(id);
+		
 				LoginGrid login = new LoginGrid(mainStage);
 				login.show();	
 			}

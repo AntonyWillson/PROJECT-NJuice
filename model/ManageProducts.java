@@ -78,7 +78,8 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 	//Alert
 	Alert alert;
 
-	 private ObservableList<Products> productsList;
+	// Observable list
+	private ObservableList<Products> productsList;
 	 
 	//Label
 	Label manageLabel,idLabel,nameLabel,priceLabel,descLabel,idLabel2;
@@ -126,6 +127,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		priceLabel = new Label();
 		idLabel2 = new Label();
 		
+		// Obeervable List
 		productsList = FXCollections.observableArrayList();
 
 		//Table
@@ -313,11 +315,10 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		}else if (e.getSource() == insertBtn) {
 			if (nameField.getText().isEmpty() || descArea.getText().isEmpty() || descArea.getText().length() < 10 || descArea.getText().length() > 100  ) {
 				alert.show();
-				 System.out.println("Salaah");
+				 
 			}else {
 				String id = String.format("JU%03d", i);
 				i++;
-				System.out.println("Benar");
 				String juiceName = nameField.getText();
 				int juicePrice = price.getValue();
 				String juiceDescription = descArea.getText();
@@ -330,36 +331,63 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 				nameField.clear();
 				descArea.clear();
 				
+//				System.out.println("Salah insert");
+				
 			}
 		}else if (e.getSource() == removeBtn) {
 			if (productId.getValue() == null) {
 				alert.show();
 			}else {
 				 String selectedProductId = productId.getValue();
-			        Products selectedProduct = null;
+			     Products selectedProduct = null;
 
 			        // Cari produk yang sesuai dengan juiceId
 			        for (Products product : productsList) {
 			            if (product.getJuiceID().equals(selectedProductId)) {
 			                selectedProduct = product;
+			                System.out.println("siuhadu");
 			                break;
 			            }
 			        }
 
 			        if (selectedProduct != null) {
 			            tableProducts.getItems().remove(selectedProduct);
-			            productsList.remove(selectedProduct); // Hapus produk dari productsList
-			            // TODO: Hapus data dari struktur data lainnya jika diperlukan
+			            productsList.remove(selectedProduct); 
 			        }
 			        
 			        productId.getItems().remove(selectedProductId);
 	                productId.setValue(null);
+	                
+
+	                int maxId = 0;
+	                for (Products product : productsList) {
+	                    String juiceId = product.getJuiceID();
+	                    int idNumber = Integer.parseInt(juiceId.substring(2));
+	                    maxId = Math.max(maxId, idNumber);
+	                }
+	                
+	                i = maxId +1;
 			}
 	    
 	
 		}else if (e.getSource() == updateBtn) {
-			if (nameField.getText().isEmpty() || descArea.getText().isEmpty()) {
+			if (productId.getValue() == null) {
 				alert.show();
+			}else {
+				String selectedProductId = productId.getValue();
+		        int newPrice = price.getValue();
+
+		        // Cari produk yang sesuai dengan juiceId
+		        for (Products product : productsList) {
+		            if (product.getJuiceID().equals(selectedProductId)) {
+		                // Perbarui harga produk
+		                product.setJuicePrice(newPrice);
+
+		                // Perbarui tampilan tabel
+		                tableProducts.refresh();
+		                break;
+		            }
+		        }
 			}
 		}
 
