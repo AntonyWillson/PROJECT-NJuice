@@ -2,6 +2,7 @@ package util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -14,8 +15,9 @@ public class Connect {
 	private final String HOST = "localhost:3306";
 	private final String CONNECTION = String.format("jdbc:mysql://%s/%s", HOST,DATABASE);
 	
-	private Connection con;
+	public Connection con;
 	private Statement st;
+	public PreparedStatement pst;
 	
 	public ResultSet rs;
 	public ResultSetMetaData rsm;
@@ -57,4 +59,23 @@ public class Connect {
 			e.printStackTrace();
 		}
 	}
+	
+	 public PreparedStatement prepareStatement(String query) throws SQLException {
+	        pst = con.prepareStatement(query);
+	        return pst;
+	    }
+	 
+	 public int getMaxJuiceId() {
+		    int maxId = 0;
+		    String query = "SELECT MAX(CAST(SUBSTRING(JuiceID, 3) AS SIGNED)) AS MaxId FROM msjuice";
+		    rs = executeQuery(query);
+		    try {
+		        if (rs.next()) {
+		            maxId = rs.getInt("MaxId");
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		    return maxId;
+		}
 }

@@ -2,6 +2,7 @@ package model;
 
 
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -39,8 +40,7 @@ import javafx.stage.Stage;
 import util.Connect;
 
 public class ManageProducts extends GridPane implements EventHandler<ActionEvent> {
-	int i = 1;
-	Random rand = new Random();
+	int i;
 	
 	//Menu
 	MenuBar menuBar;
@@ -95,6 +95,8 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 	Connect connect = Connect.getInstance();
 
 	void Initialize() {
+		i = connect.getMaxJuiceId() + 1;
+		
 		//Menu
 		menuBar = new MenuBar();
 		menu1 = new Menu();
@@ -339,6 +341,13 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		ObservableList<Products> productObj = FXCollections.observableArrayList(productList);
 		tableProducts.setItems(productObj);
 	}
+	
+
+	private ResultSet executeQuery(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public ManageProducts(Stage mainStage) {
 		Initialize();
 		Components();
@@ -372,22 +381,40 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 				 
 			}else {
 				String id = String.format("JU%03d", i);
-				i++;
-				String juiceName = nameField.getText();
-				int juicePrice = price.getValue();
-				String juiceDescription = descArea.getText();
-				
-				Products p = new Products(id, juiceName, juicePrice, juiceDescription);
-				tableProducts.getItems().add(p);
-				
-				productId.getItems().add(p.getJuiceID());
-				
-				nameField.clear();
-				descArea.clear();
+		        i++;
+
+		        String juiceName = nameField.getText();
+		        int juicePrice = price.getValue();
+		        String juiceDescription = descArea.getText();
+
+		        // Insert the new record into the database
+		        String insertQuery = "INSERT INTO msjuice (JuiceID, JuiceName, Price, JuiceDescription) VALUES (?, ?, ?, ?)";
+		        try {
+		            connect.pst = connect.con.prepareStatement(insertQuery);
+		            connect.pst.setString(1, id);
+		            connect.pst.setString(2, juiceName);
+		            connect.pst.setInt(3, juicePrice);
+		            connect.pst.setString(4, juiceDescription);
+
+		            connect.pst.executeUpdate();
+		        } catch (SQLException ex) {
+		            ex.printStackTrace();
+		            // Handle the exception (e.g., show an error message)
+		            return;
+		        }
+
+		        // Update the UI
+		        Products p = new Products(id, juiceName, juicePrice, juiceDescription);
+		        tableProducts.getItems().add(p);
+		        productId.getItems().add(p.getJuiceID());
+
+		        nameField.clear();
+		        descArea.clear();
+		    }
 				
 //				System.out.println("Salah insert");
 				
-			}
+			
 		}else if (e.getSource() == removeBtn) {
 			if (productId.getValue() == null) {
 				alert.show();
