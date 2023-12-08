@@ -315,7 +315,24 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+		
+		    productId.getItems().clear(); // Clear the ComboBox items
+
+		    String query1 = "SELECT JuiceID FROM msjuice"; // Fetch only the IDs
+		    connect.rs = connect.executeQuery(query1);
+
+		    try {
+		        while (connect.rs.next()) {
+		            String id = connect.rs.getString("JuiceID");
+		            productId.getItems().add(id); // Add ID to ComboBox
+
+		            // You can fetch other details if needed and create Products objects
+		            // or simply add IDs to the ComboBox if that's all you need
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		}
 	
 	private void refreshTable() {
 		getData();
