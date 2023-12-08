@@ -2,6 +2,8 @@ package model;
 
 
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.collections.FXCollections;
@@ -34,6 +36,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import util.Connect;
 
 public class ManageProducts extends GridPane implements EventHandler<ActionEvent> {
 	int i = 1;
@@ -86,6 +89,10 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 
 	//Table
 	TableView<Products> tableProducts;
+	
+	//SQL
+	ArrayList<Products> productList = new ArrayList<Products>();
+	Connect connect = Connect.getInstance();
 
 	void Initialize() {
 		//Menu
@@ -128,7 +135,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		idLabel2 = new Label();
 		
 		// Obeervable List
-		productsList = FXCollections.observableArrayList();
+//		productsList = FXCollections.observableArrayList();
 
 		//Table
 		tableProducts = new TableView<Products>();
@@ -286,6 +293,35 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		removeBtn.setOnAction(this);
 		updateBtn.setOnAction(this);
 	}
+	
+	private void getData(){
+		productList.clear();
+		
+		String query = "SELECT * FROM msjuice";
+		connect.rs = connect.executeQuery(query);
+		
+		try {
+			while (connect.rs.next()) {
+				String id = connect.rs.getString("JuiceID");
+				String name = connect.rs.getString("JuiceName");
+				int price = connect.rs.getInt("Price");
+				String desc = connect.rs.getString("JuiceDescription");
+				
+				Products product = new Products(id, name, price, desc);
+				productList.add(product);
+						
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void refreshTable() {
+		getData();
+		ObservableList<Products> productObj = FXCollections.observableArrayList(productList);
+		tableProducts.setItems(productObj);
+	}
 	public ManageProducts(Stage mainStage) {
 		Initialize();
 		Components();
@@ -293,6 +329,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		AddComponents();
 		CreateTable();
 		SetEvent();
+		refreshTable();
 		mainStage.setScene(manageScene);
 		this.mainStage = mainStage;
 	}
