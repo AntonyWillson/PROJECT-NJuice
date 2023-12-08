@@ -2,6 +2,10 @@ package model;
 
 
 
+import java.util.Random;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -32,6 +36,9 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class ManageProducts extends GridPane implements EventHandler<ActionEvent> {
+	int i = 1;
+	Random rand = new Random();
+	
 	//Menu
 	MenuBar menuBar;
 	Menu menu1,menuLogout;
@@ -71,7 +78,9 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 	//Alert
 	Alert alert;
 
-
+	// Observable list
+	private ObservableList<Products> productsList;
+	 
 	//Label
 	Label manageLabel,idLabel,nameLabel,priceLabel,descLabel,idLabel2;
 
@@ -118,7 +127,8 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		priceLabel = new Label();
 		idLabel2 = new Label();
 		
-		
+		// Obeervable List
+		productsList = FXCollections.observableArrayList();
 
 		//Table
 		tableProducts = new TableView<Products>();
@@ -133,7 +143,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 
 		// Spinner
 		price = new Spinner<>();
-		priceSpinnerFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,1000000000,10000,1);
+		priceSpinnerFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10000,10000000,10000,1);
 		
 		// Text Field & Area
 		nameField = new TextField();
@@ -188,6 +198,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		vb2.getChildren().addAll(insertBtn,updateBtn,removeBtn);
 		vb4.getChildren().addAll(idLabel,idLabel2);
 		
+
 		//Hbox
 		hbox.getChildren().addAll(vb4,productId);
 		hbox1.getChildren().addAll(priceLabel,price);
@@ -213,22 +224,26 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 
 	void CreateTable() {
 		// Product Table
-		TableColumn<Products, String> jIdCol = new TableColumn<>("Juice ID");
-		jIdCol.setCellValueFactory(new PropertyValueFactory<Products, String>("jIdCol"));
-		jIdCol.setMinWidth(manageScene.getWidth()/8);
-
-		TableColumn<Products, String> jName = new TableColumn<>("Juice Name");
-		jName.setCellValueFactory(new PropertyValueFactory<Products, String>("jNameCol"));
-		jName.setMinWidth(manageScene.getWidth()/8);
-		TableColumn<Products, Integer> priceCol = new TableColumn<>("Price");
-		priceCol.setCellValueFactory(new PropertyValueFactory<Products, Integer>("priceCol"));
-		priceCol.setMinWidth(manageScene.getWidth()/8);
-
-		TableColumn<Products, String> jDescCol = new TableColumn<>("Juice Description");
-		jDescCol.setCellValueFactory(new PropertyValueFactory<Products, String>("jDescCol"));
-		jDescCol.setMinWidth(manageScene.getWidth()/4);
-		
-		tableProducts.getColumns().addAll(jIdCol,jName,priceCol,jDescCol);
+		TableColumn<Products, String> idCol = new TableColumn<Products, String>("Juice ID");
+		  idCol.setCellValueFactory(new PropertyValueFactory<Products, String>("juiceID"));
+		  idCol.setMinWidth(100);
+		  
+		  TableColumn<Products, String> nameCol = new TableColumn<Products, String>("Juice Name");
+		  nameCol.setCellValueFactory(new PropertyValueFactory<Products, String>("juiceName"));
+		  nameCol.setMinWidth(150);
+		  
+		  TableColumn<Products, Integer> priceCol = new TableColumn<Products, Integer>("Price");
+		  priceCol.setCellValueFactory(new PropertyValueFactory<Products, Integer>("juicePrice"));
+		  priceCol.setMinWidth(10);
+		  
+		  TableColumn<Products, String> descCol = new TableColumn<Products, String>("Juice Description");
+		  descCol.setCellValueFactory(new PropertyValueFactory<Products, String>("juiceDescription"));
+		  descCol.setMinWidth(200);
+		  
+		  tableProducts.getColumns().addAll(idCol,nameCol,priceCol,descCol);
+		  
+		  tableProducts.setItems(productsList);
+		  
 	}
 
 	void ArrangeComponents() {
@@ -288,23 +303,91 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 
 	@Override
 	public void handle(ActionEvent e) {
+		
+		
 		if (e.getSource() == menuItem1) {
 			AdminViewTrans view = new AdminViewTrans(mainStage);
 			view.show();
 		}else if (e.getSource() == menuItem3) {
 			LoginGrid login = new LoginGrid(mainStage);
 			login.show();
+			
 		}else if (e.getSource() == insertBtn) {
-			if (nameField.getText().isEmpty() || descArea.getText().isEmpty()) {
+			if (nameField.getText().isEmpty() || descArea.getText().isEmpty() || descArea.getText().length() < 10 || descArea.getText().length() > 100  ) {
 				alert.show();
+				 
+			}else {
+				String id = String.format("JU%03d", i);
+				i++;
+				String juiceName = nameField.getText();
+				int juicePrice = price.getValue();
+				String juiceDescription = descArea.getText();
+				
+				Products p = new Products(id, juiceName, juicePrice, juiceDescription);
+				tableProducts.getItems().add(p);
+				
+				productId.getItems().add(p.getJuiceID());
+				
+				nameField.clear();
+				descArea.clear();
+				
+//				System.out.println("Salah insert");
+				
 			}
 		}else if (e.getSource() == removeBtn) {
-			if (nameField.getText().isEmpty() || descArea.getText().isEmpty()) {
+			if (productId.getValue() == null) {
 				alert.show();
+			}else {
+				 String selectedProductId = productId.getValue();
+			     Products selectedProduct = null;
+
+			        // Cari produk yang sesuai dengan juiceId
+			        for (Products product : productsList) {
+			            if (product.getJuiceID().equals(selectedProductId)) {
+			                selectedProduct = product;
+			                System.out.println("siuhadu");
+			                break;
+			            }
+			        }
+
+			        if (selectedProduct != null) {
+			            tableProducts.getItems().remove(selectedProduct);
+			            productsList.remove(selectedProduct); 
+			        }
+			        
+			        productId.getItems().remove(selectedProductId);
+	                productId.setValue(null);
+	                
+
+	                int maxId = 0;
+	                for (Products product : productsList) {
+	                    String juiceId = product.getJuiceID();
+	                    int idNumber = Integer.parseInt(juiceId.substring(2));
+	                    maxId = Math.max(maxId, idNumber);
+	                }
+	                
+	                i = maxId +1;
 			}
+	    
+	
 		}else if (e.getSource() == updateBtn) {
-			if (nameField.getText().isEmpty() || descArea.getText().isEmpty()) {
+			if (productId.getValue() == null) {
 				alert.show();
+			}else {
+				String selectedProductId = productId.getValue();
+		        int newPrice = price.getValue();
+
+		        // Cari produk yang sesuai dengan juiceId
+		        for (Products product : productsList) {
+		            if (product.getJuiceID().equals(selectedProductId)) {
+		                // Perbarui harga produk
+		                product.setJuicePrice(newPrice);
+
+		                // Perbarui tampilan tabel
+		                tableProducts.refresh();
+		                break;
+		            }
+		        }
 			}
 		}
 
