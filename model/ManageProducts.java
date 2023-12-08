@@ -311,7 +311,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 				productList.add(product);
 						
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
