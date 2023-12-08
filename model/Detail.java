@@ -1,34 +1,34 @@
 package model;
 
 public class Detail {
-	private String idCol1;
-	private String jIdCol;
-	private String jName;
+	private String transId;
+	private String juiceId;
+	private String juiceName;
 	private int qty;
-	public Detail(String idCol1, String jIdCol, String jName, int qty) {
+	public Detail(String transId, String juiceId, String juiceName, int qty) {
 		super();
-		this.idCol1 = idCol1;
-		this.jIdCol = jIdCol;
-		this.jName = jName;
+		this.transId = transId;
+		this.juiceId = juiceId;
+		this.juiceName = juiceName;
 		this.qty = qty;
 	}
-	public String getIdCol1() {
-		return idCol1;
+	public String getTransId() {
+		return transId;
 	}
-	public void setIdCol1(String idCol1) {
-		this.idCol1 = idCol1;
+	public void setTransId(String transId) {
+		this.transId = transId;
 	}
-	public String getjIdCol() {
-		return jIdCol;
+	public String getJuiceId() {
+		return juiceId;
 	}
-	public void setjIdCol(String jIdCol) {
-		this.jIdCol = jIdCol;
+	public void setJuiceId(String juiceId) {
+		this.juiceId = juiceId;
 	}
-	public String getjName() {
-		return jName;
+	public String getJuiceName() {
+		return juiceName;
 	}
-	public void setjName(String jName) {
-		this.jName = jName;
+	public void setJuiceName(String juiceName) {
+		this.juiceName = juiceName;
 	}
 	public int getQty() {
 		return qty;

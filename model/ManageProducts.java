@@ -41,7 +41,7 @@ import util.Connect;
 
 public class ManageProducts extends GridPane implements EventHandler<ActionEvent> {
 	int i;
-	
+
 	//Menu
 	MenuBar menuBar;
 	Menu menu1,menuLogout;
@@ -50,16 +50,16 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 
 	//Vbox
 	VBox vbox,vb2,vb3,vb4;
-	
+
 	//hbox
 	HBox hbox,hbox1,hbox2,hbox3,hb,hb2;
-	
+
 	//Buitton
 	Button insertBtn,updateBtn,removeBtn;
-	
+
 	//Region
 	Region space,space2;
-	
+
 	//Border
 	BorderPane bp;
 
@@ -77,26 +77,26 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 	//Text field & Area
 	TextField nameField;
 	TextArea descArea;
-	
+
 	//Alert
 	Alert alert;
 
 	// Observable list
-	private ObservableList<Products> productsList;
-	 
+	//	private ObservableList<Products> productsList;
+
 	//Label
 	Label manageLabel,idLabel,nameLabel,priceLabel,descLabel,idLabel2;
 
 	//Table
 	TableView<Products> tableProducts;
-	
+
 	//SQL
 	ArrayList<Products> productList = new ArrayList<Products>();
 	Connect connect = Connect.getInstance();
 
 	void Initialize() {
 		i = connect.getMaxJuiceId() + 1;
-		
+
 		//Menu
 		menuBar = new MenuBar();
 		menu1 = new Menu();
@@ -108,13 +108,13 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		//Region
 		space = new Region();
 		space2 = new Region();
-		
+
 		//Vbox
 		vbox = new VBox();
 		vb2 = new VBox();
 		vb3 = new VBox();
 		vb4 = new VBox();
-		
+
 		// Hbox
 		hbox = new HBox();
 		hbox1 = new HBox();
@@ -122,7 +122,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		hbox3 = new HBox();
 		hb = new HBox();
 		hb2 = new HBox();
-		
+
 		//Button
 		insertBtn = new Button();
 		removeBtn = new Button();
@@ -135,16 +135,14 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		descLabel = new Label();
 		priceLabel = new Label();
 		idLabel2 = new Label();
-		
-		// Obeervable List
-//		productsList = FXCollections.observableArrayList();
+
 
 		//Table
 		tableProducts = new TableView<Products>();
 
 		//Combo box
 		productId = new ComboBox<>();
-		
+
 		//Alert
 		alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Error");
@@ -153,14 +151,14 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		// Spinner
 		price = new Spinner<>();
 		priceSpinnerFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10000,10000000,10000,1);
-		
+
 		// Text Field & Area
 		nameField = new TextField();
 		descArea = new TextArea();
-		
+
 		//Border
 		bp = new BorderPane();
-		
+
 		//Scene
 		manageScene = new Scene(bp,800,600);
 	}
@@ -176,7 +174,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		menuBar.getMenus().addAll(menu1,menuLogout);
 		menu1.getItems().addAll(menuItem1,menuItem2);
 		menuLogout.getItems().addAll(menuItem3);
-		
+
 		//BUtton
 		insertBtn.setText("Insert Juice");
 		updateBtn.setText("Update Juice");
@@ -189,7 +187,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		priceLabel.setText("Price:");
 		nameLabel.setText("Product Name:");
 		descLabel.setText("Product Description:");
-		
+
 		// Text Field & Area
 		nameField.setPromptText("Insert product name to be created");
 		descArea.setPromptText("Insert the new product text description, min 10 & max 100");
@@ -198,61 +196,60 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 
 		//Spinner
 		price.setValueFactory(priceSpinnerFactory);
-		
-		
+
+
 		hb2.getChildren().addAll(space,tableProducts,space2);
-		
+
 		//Vbox
 		vbox.getChildren().addAll(manageLabel,hb2);
 		vb2.getChildren().addAll(insertBtn,updateBtn,removeBtn);
 		vb4.getChildren().addAll(idLabel,idLabel2);
-		
+
 
 		//Hbox
 		hbox.getChildren().addAll(vb4,productId);
 		hbox1.getChildren().addAll(priceLabel,price);
 		hbox2.getChildren().addAll(nameLabel,nameField);
 		hbox3.getChildren().addAll(descLabel,descArea);
-		
+
 		hb.getChildren().addAll(this,vb2);
-		
+
 		//Grid
 		this.add(hbox, 0, 0);
 		this.add(hbox1, 0, 1);
 		this.add(hbox2, 0, 2);
 		this.add(hbox3, 0, 3);
-		
+
 		vb3.getChildren().addAll(vbox,hb);
 	}
 
 	void AddComponents() {
 		bp.setTop(menuBar);
 		bp.setCenter(vb3);
-		
+
 	}
 
 	void CreateTable() {
 		// Product Table
 		TableColumn<Products, String> idCol = new TableColumn<Products, String>("Juice ID");
-		  idCol.setCellValueFactory(new PropertyValueFactory<Products, String>("juiceID"));
-		  idCol.setMinWidth(100);
-		  
-		  TableColumn<Products, String> nameCol = new TableColumn<Products, String>("Juice Name");
-		  nameCol.setCellValueFactory(new PropertyValueFactory<Products, String>("juiceName"));
-		  nameCol.setMinWidth(150);
-		  
-		  TableColumn<Products, Integer> priceCol = new TableColumn<Products, Integer>("Price");
-		  priceCol.setCellValueFactory(new PropertyValueFactory<Products, Integer>("juicePrice"));
-		  priceCol.setMinWidth(10);
-		  
-		  TableColumn<Products, String> descCol = new TableColumn<Products, String>("Juice Description");
-		  descCol.setCellValueFactory(new PropertyValueFactory<Products, String>("juiceDescription"));
-		  descCol.setMinWidth(200);
-		  
-		  tableProducts.getColumns().addAll(idCol,nameCol,priceCol,descCol);
-		  
-		  tableProducts.setItems(productsList);
-		  
+		idCol.setCellValueFactory(new PropertyValueFactory<Products, String>("juiceID"));
+		idCol.setMinWidth(100);
+
+		TableColumn<Products, String> nameCol = new TableColumn<Products, String>("Juice Name");
+		nameCol.setCellValueFactory(new PropertyValueFactory<Products, String>("juiceName"));
+		nameCol.setMinWidth(150);
+
+		TableColumn<Products, Integer> priceCol = new TableColumn<Products, Integer>("Price");
+		priceCol.setCellValueFactory(new PropertyValueFactory<Products, Integer>("juicePrice"));
+		priceCol.setMinWidth(10);
+
+		TableColumn<Products, String> descCol = new TableColumn<Products, String>("Juice Description");
+		descCol.setCellValueFactory(new PropertyValueFactory<Products, String>("juiceDescription"));
+		descCol.setMinWidth(200);
+
+		tableProducts.getColumns().addAll(idCol,nameCol,priceCol,descCol);
+
+
 	}
 
 	void ArrangeComponents() {
@@ -260,7 +257,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		vbox.setAlignment(Pos.CENTER);
 		this.setVgap(20);
 		vbox.setSpacing(20);
-		
+
 		//Hbox
 		hbox.setSpacing(68);
 		hbox1.setSpacing(140);
@@ -269,18 +266,17 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		hb.setSpacing(10);
 		hb.setAlignment(Pos.CENTER);
 		hb2.setAlignment(Pos.CENTER);
-		
+
 		vb2.setAlignment(Pos.CENTER);
 		vb2.setSpacing(20);
 		vb3.setSpacing(10);
-		
-//		vbox.setPadding(new Insets(0,0,20,0));
+
 		vb3.setPadding(new Insets(0,0,20,0));
-		
+
 		//Text Field
 		nameField.setPrefWidth(300);
 		descArea.setPrefWidth(300);
-		
+
 		// BUtton
 		insertBtn.setPrefSize(100, 50);
 		updateBtn.setPrefSize(100, 50);
@@ -295,60 +291,80 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		removeBtn.setOnAction(this);
 		updateBtn.setOnAction(this);
 	}
-	
+
 	private void getData(){
 		productList.clear();
-		
+
 		String query = "SELECT * FROM msjuice";
 		connect.rs = connect.executeQuery(query);
-		
+
 		try {
 			while (connect.rs.next()) {
 				String id = connect.rs.getString("JuiceID");
 				String name = connect.rs.getString("JuiceName");
 				int price = connect.rs.getInt("Price");
 				String desc = connect.rs.getString("JuiceDescription");
-				
+
 				Products product = new Products(id, name, price, desc);
 				productList.add(product);
-						
+
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-//		    productId.getItems().clear(); // Clear the ComboBox items
 
-		    String query1 = "SELECT JuiceID FROM msjuice"; // Fetch only the IDs
-		    connect.rs = connect.executeQuery(query1);
 
-		    try {
-		        while (connect.rs.next()) {
-		            String id = connect.rs.getString("JuiceID");
-		            productId.getItems().add(id);
-		        }
-		    } catch (SQLException e) {
-		        e.printStackTrace();
-		    }
+		String query1 = "SELECT JuiceID FROM msjuice";
+		connect.rs = connect.executeQuery(query1);
+
+		try {
+			while (connect.rs.next()) {
+				String id = connect.rs.getString("JuiceID");
+				productId.getItems().add(id);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-	
+	}
+
 	private void refreshTable() {
 		getData();
 		ObservableList<Products> productObj = FXCollections.observableArrayList(productList);
 		tableProducts.setItems(productObj);
+		productId.getItems().clear();
+
+		for (Products product : productList) {
+			productId.getItems().add(product.getJuiceID());
+		}
 	}
-	
-	private void updatePriceInDatabase(String juiceID, int newPrice) {
-	    String query = "UPDATE msjuice SET Price = ? WHERE JuiceID = ?";
-	    try {
-	        connect.pst = connect.con.prepareStatement(query);
-	        connect.pst.setInt(1, newPrice);
-	        connect.pst.setString(2, juiceID);
-	        connect.pst.executeUpdate();
-	    } catch (SQLException ex) {
-	        ex.printStackTrace();
-	    }
+
+	private void getData2(String juiceID, int newPrice) {
+
+		String updateQuery = "UPDATE msjuice SET Price = ? WHERE JuiceID = ?";
+		try {
+			connect.pst = connect.con.prepareStatement(updateQuery);
+			connect.pst.setInt(1, newPrice);
+			connect.pst.setString(2, juiceID);
+
+			connect.pst.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			// Handle the exception (e.g., show an error message)
+		}
+	}
+
+	private void getData3 (String juiceID) {
+		String updateQuery = "DELETE FROM msjuice WHERE JuiceID = ?";
+		try {
+			connect.pst = connect.con.prepareStatement(updateQuery);
+			connect.pst.setString(1, juiceID);
+
+			connect.pst.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			// Handle the exception (e.g., show an error message)
+		}
 	}
 
 
@@ -370,115 +386,82 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 
 	@Override
 	public void handle(ActionEvent e) {
-		
-		
+
+
 		if (e.getSource() == menuItem1) {
 			AdminViewTrans view = new AdminViewTrans(mainStage);
 			view.show();
 		}else if (e.getSource() == menuItem3) {
 			LoginGrid login = new LoginGrid(mainStage);
 			login.show();
-			
+
 		}else if (e.getSource() == insertBtn) {
 			if (nameField.getText().isEmpty() || descArea.getText().isEmpty() || descArea.getText().length() < 10 || descArea.getText().length() > 100  ) {
 				alert.show();
-				 
+
 			}else {
-				String id = String.format("JU%03d", i);
-		        i++;
+				int maxJuiceId = connect.getMaxJuiceId();
+				String id = String.format("JU%03d", maxJuiceId + 1);
 
-		        String juiceName = nameField.getText();
-		        int juicePrice = price.getValue();
-		        String juiceDescription = descArea.getText();
+				String juiceName = nameField.getText();
+				int juicePrice = price.getValue();
+				String juiceDescription = descArea.getText();
 
-		        // Insert the new record into the database
-		        String insertQuery = "INSERT INTO msjuice (JuiceID, JuiceName, Price, JuiceDescription) VALUES (?, ?, ?, ?)";
-		        try {
-		            connect.pst = connect.con.prepareStatement(insertQuery);
-		            connect.pst.setString(1, id);
-		            connect.pst.setString(2, juiceName);
-		            connect.pst.setInt(3, juicePrice);
-		            connect.pst.setString(4, juiceDescription);
+				String insertQuery = "INSERT INTO msjuice (JuiceID, JuiceName, Price, JuiceDescription) VALUES (?, ?, ?, ?)";
+				try {
+					connect.pst = connect.con.prepareStatement(insertQuery);
+					connect.pst.setString(1, id);
+					connect.pst.setString(2, juiceName);
+					connect.pst.setInt(3, juicePrice);
+					connect.pst.setString(4, juiceDescription);
 
-		            connect.pst.executeUpdate();
-		        } catch (SQLException ex) {
-		            ex.printStackTrace();
-		            // Handle the exception (e.g., show an error message)
-		            return;
-		        }
+					connect.pst.executeUpdate();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+					return;
+				}
+				Products p = new Products(id, juiceName, juicePrice, juiceDescription);
+				tableProducts.getItems().add(p);
+				productId.getItems().add(p.getJuiceID());
 
-		        // Update the UI
-		        Products p = new Products(id, juiceName, juicePrice, juiceDescription);
-		        tableProducts.getItems().add(p);
-		        productId.getItems().add(p.getJuiceID());
+				nameField.clear();
+				descArea.clear();
+			}
 
-		        nameField.clear();
-		        descArea.clear();
-		    }
-				
-//				System.out.println("Salah insert");
-				
-			
+
+
 		}else if (e.getSource() == removeBtn) {
 			if (productId.getValue() == null) {
 				alert.show();
 			}else {
-				 String selectedProductId = productId.getValue();
-			     Products selectedProduct = null;
+				String selectedProductId = productId.getValue();
 
-			        // Cari produk yang sesuai dengan juiceId
-			        for (Products product : productsList) {
-			            if (product.getJuiceID().equals(selectedProductId)) {
-			                selectedProduct = product;
-			                System.out.println("siuhadu");
-			                break;
-			            }
-			        }
-
-			        if (selectedProduct != null) {
-			            tableProducts.getItems().remove(selectedProduct);
-			            productsList.remove(selectedProduct); 
-			        }
-			        
-			        productId.getItems().remove(selectedProductId);
-	                productId.setValue(null);
-	                
-
-	                int maxId = 0;
-	                for (Products product : productsList) {
-	                    String juiceId = product.getJuiceID();
-	                    int idNumber = Integer.parseInt(juiceId.substring(2));
-	                    maxId = Math.max(maxId, idNumber);
-	                }
-	                
-	                i = maxId +1;
+				getData3(selectedProductId);
+				refreshTable();
 			}
-	    
-	
+
+
 		}else if (e.getSource() == updateBtn) {
 			if (productId.getValue() == null) {
 				alert.show();
 			}else {
 				String selectedProductId = productId.getValue();
-		        int newPrice = price.getValue();
+				int newPrice = price.getValue();
 
-		        // Cari produk yang sesuai dengan juiceId
-		        for (Products product : productsList) {
-		            if (product.getJuiceID().equals(selectedProductId)) {
-		                // Perbarui harga produk
-		                product.setJuicePrice(newPrice);
+				getData2(selectedProductId, newPrice);
 
-		                // Perbarui harga di database
-		                updatePriceInDatabase(selectedProductId, newPrice);
+				for (Products product : productList) {
+					if (product.getJuiceID().equals(selectedProductId)) {
+						product.setJuicePrice(newPrice);
+						break;
+					}
+				}
 
-		                // Perbarui tampilan tabel
-		                break;
-		            }
-		        }
-		    }
+				refreshTable();
 			}
 		}
-
 	}
+}
+
 
 

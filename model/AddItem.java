@@ -104,7 +104,7 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
   popUp = new StackPane();
 
   // Scene
-  scene = new Scene(popUp,400,400);
+  scene = new Scene(popUp,600,600);
   window.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 
  
@@ -116,6 +116,7 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
   juiceLabel.setText("Juice: ");
 //  juicePrice.setText("Juice Price: ");
   juiceDesc.setText("Description: ");
+  juiceDesc.setWrapText(true);
   juiceQty.setText("Quantity: ");
   juiceTotPrice.setText("Total Price: ");
 
@@ -125,6 +126,9 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
  
   //Spinner
   Qty.setValueFactory(QtySpinnerFactory);
+  Qty.valueProperty().addListener((observable, oldValue, newValue) -> {
+	    getData3(); 
+	});
 
   //Hbox
   hb.getChildren().addAll(juiceName,juicePrice);
@@ -152,7 +156,7 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
  
  public void SetEvent() {
   addBtn.setOnAction(this);
-  juiceName.setOnAction(event -> updateJuicePrice());
+  juiceName.setOnAction(event -> getData2());
  }
  
  private void getData() {
@@ -169,15 +173,15 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
          e.printStackTrace();
      }
      
-     updateJuicePrice();
+     getData2();
  }  
    
-  private void updateJuicePrice() {
+  private void getData2() {
   String selectedJuiceName = juiceName.getValue();
 
      if (selectedJuiceName != null) {
          // Mendapatkan harga jus dari database berdasarkan nama jus yang dipilih
-         String query2 = "SELECT JuicePrice FROM msjuice WHERE JuiceName = ?";
+         String query2 = "SELECT Price, JuiceDescription FROM msjuice WHERE JuiceName = ?";
          try {
              connect.pst = connect.con.prepareStatement(query2);
              connect.pst.setString(1, selectedJuiceName);
@@ -185,8 +189,11 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
              connect.rs = connect.pst.executeQuery();
 
              if (connect.rs.next()) {
-                 int juicePriceValue = connect.rs.getInt("JuicePrice");
+                 int juicePriceValue = connect.rs.getInt("Price");
+                 String juiceDescrip = connect.rs.getString("JuiceDescription");
                  juicePrice.setText("Juice Price: " + juicePriceValue);
+
+                 juiceDesc.setText(juiceDescrip);
              }
          } catch (SQLException e) {
              e.printStackTrace();
@@ -196,6 +203,36 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
          juicePrice.setText("Juice Price: ");
      }
  }
+  
+  private void getData3() {
+	  int quantity = Qty.getValue();
+	    String selectedJuiceName = juiceName.getValue();
+
+	    if (selectedJuiceName != null) {
+	        // Mendapatkan harga jus dari database berdasarkan nama jus yang dipilih
+	        String query2 = "SELECT Price FROM msjuice WHERE JuiceName = ?";
+	        try {
+	            connect.pst = connect.con.prepareStatement(query2);
+	            connect.pst.setString(1, selectedJuiceName);
+
+	            connect.rs = connect.pst.executeQuery();
+
+	            if (connect.rs.next()) {
+	                int juicePriceValue = connect.rs.getInt("Price");
+
+	                // Hitung total harga
+	                int totalJuicePrice = juicePriceValue * quantity;
+
+	                // Set label total harga
+	                juiceTotPrice.setText("Total Price: " + totalJuicePrice);
+	            }
+	        } catch (SQLException ex) {
+	            ex.printStackTrace();
+	        }
+	    }
+  }
+  
+  
  
  private void refreshTable() {
   getData();

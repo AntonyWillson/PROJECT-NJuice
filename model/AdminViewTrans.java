@@ -101,13 +101,13 @@ public class AdminViewTrans extends GridPane implements EventHandler<ActionEvent
 		
 		//Detail
 		TableColumn<Detail, String> idCol1 = new TableColumn<>("Transaction Id");
-		idCol1.setCellValueFactory(new PropertyValueFactory<Detail, String>("idCol1"));
+		idCol1.setCellValueFactory(new PropertyValueFactory<Detail, String>("transId"));
 		idCol1.setMinWidth(adminScene.getWidth()/8);
 		TableColumn<Detail, String> jIdCol = new TableColumn<>("Juice ID");
-		jIdCol.setCellValueFactory(new PropertyValueFactory<Detail, String>("jIdCol"));
+		jIdCol.setCellValueFactory(new PropertyValueFactory<Detail, String>("juiceId"));
 		jIdCol.setMinWidth(adminScene.getWidth()/8);
 		TableColumn<Detail, String> jName = new TableColumn<>("Juice Name");
-		jName.setCellValueFactory(new PropertyValueFactory<Detail, String>("jName"));
+		jName.setCellValueFactory(new PropertyValueFactory<Detail, String>("juiceName"));
 		jName.setMinWidth(adminScene.getWidth()/5);
 		TableColumn<Detail, Integer> qty = new TableColumn<>("Quantity");
 		qty.setCellValueFactory(new PropertyValueFactory<Detail, Integer>("qty"));
@@ -244,8 +244,14 @@ public class AdminViewTrans extends GridPane implements EventHandler<ActionEvent
 	}
 	@Override
 	public void handle(ActionEvent e) {
-		
-}
+		if (e.getSource() == menuItem2) {
+			ManageProducts mp = new ManageProducts(mainStage);
+			mp.show();
+		}else if (e.getSource() == menuItem3) {
+			LoginGrid login = new LoginGrid(mainStage);
+			login.show();
+		}
+	}
 }
 
 	
