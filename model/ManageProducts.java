@@ -318,7 +318,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 			e.printStackTrace();
 		}
 		
-		    productId.getItems().clear(); // Clear the ComboBox items
+//		    productId.getItems().clear(); // Clear the ComboBox items
 
 		    String query1 = "SELECT JuiceID FROM msjuice"; // Fetch only the IDs
 		    connect.rs = connect.executeQuery(query1);
@@ -326,10 +326,7 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		    try {
 		        while (connect.rs.next()) {
 		            String id = connect.rs.getString("JuiceID");
-		            productId.getItems().add(id); // Add ID to ComboBox
-
-		            // You can fetch other details if needed and create Products objects
-		            // or simply add IDs to the ComboBox if that's all you need
+		            productId.getItems().add(id);
 		        }
 		    } catch (SQLException e) {
 		        e.printStackTrace();
@@ -342,11 +339,18 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		tableProducts.setItems(productObj);
 	}
 	
-
-	private ResultSet executeQuery(String query) {
-		// TODO Auto-generated method stub
-		return null;
+	private void updatePriceInDatabase(String juiceID, int newPrice) {
+	    String query = "UPDATE msjuice SET Price = ? WHERE JuiceID = ?";
+	    try {
+	        connect.pst = connect.con.prepareStatement(query);
+	        connect.pst.setInt(1, newPrice);
+	        connect.pst.setString(2, juiceID);
+	        connect.pst.executeUpdate();
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
 	}
+
 
 	public ManageProducts(Stage mainStage) {
 		Initialize();
@@ -464,14 +468,17 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		                // Perbarui harga produk
 		                product.setJuicePrice(newPrice);
 
+		                // Perbarui harga di database
+		                updatePriceInDatabase(selectedProductId, newPrice);
+
 		                // Perbarui tampilan tabel
-		                tableProducts.refresh();
 		                break;
 		            }
 		        }
+		    }
 			}
 		}
 
 	}
 
-}
+

@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.SQLException;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -18,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import util.Connect;
 
 public class LoginGrid extends GridPane implements EventHandler<ActionEvent> {
 	
@@ -157,6 +160,40 @@ public class LoginGrid extends GridPane implements EventHandler<ActionEvent> {
 
 	}
 	
+	private boolean isAdmin(String username, String password) {
+	    Connect connect = Connect.getInstance();
+	    String query = "SELECT * FROM msuser WHERE username = ? AND password = ? AND role = 'Admin'";
+	    
+	    try {
+	        connect.pst = connect.con.prepareStatement(query);
+	        connect.pst.setString(1, username);
+	        connect.pst.setString(2, password);
+	        connect.rs = connect.pst.executeQuery();
+	        
+	        return connect.rs.next();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	private boolean isCustomer(String username, String password) {
+		Connect connect = Connect.getInstance();
+		String query = "SELECT * FROM msuser WHERE username = ? AND password = ? AND role = 'Customer'";
+		
+		try {
+			connect.pst = connect.con.prepareStatement(query);
+			connect.pst.setString(1, username);
+			connect.pst.setString(2, password);
+			connect.rs = connect.pst.executeQuery();
+			
+			return connect.rs.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	
 	private void setEvent() {
 		menuItem1.setOnAction(this);
 		menuItem2.setOnAction(this);
@@ -188,17 +225,23 @@ public class LoginGrid extends GridPane implements EventHandler<ActionEvent> {
 		}else if (e.getSource() == loginButton) {
 			if (usernameInput.getText().isEmpty() || passwordInput.getText().isEmpty()) {
 				errorLabel.setText("Please Input all the field");
-			}else if (usernameInput.getText().equals("admin")) {
-				AdminViewTrans admin = new AdminViewTrans(mainStage);
-				admin.show();
-			}else if (usernameInput.getText().equals("customer")) {
-				CustHomeGrid cust = new CustHomeGrid(mainStage);
-				cust.show();
-			}
-				
-			
-		}
-		
+			} String username = usernameInput.getText();
+            String password = passwordInput.getText();
+            
+            if (isAdmin(username, password)) {
+                // Jika peran (role) adalah admin, beralih ke scene admin
+                AdminViewTrans admin = new AdminViewTrans(mainStage);
+                admin.show();
+            } else if (isCustomer(username, password)) {
+                // Jika peran (role) adalah customer, beralih ke scene customer
+                CustHomeGrid cust = new CustHomeGrid(mainStage);
+                cust.show();
+            } else {
+                // Login tidak valid
+                errorLabel.setText("Invalid username or password");
+            }
+        }
+    }
+					
 	}
 
-}
