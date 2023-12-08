@@ -1,6 +1,9 @@
 package model;
 
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -24,156 +27,207 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import jfxtras.labs.scene.control.window.Window;
+import util.Connect;
 
 public class AddItem extends GridPane implements EventHandler<ActionEvent> {
+ 
+ // Stage
+ private Stage mainStage;
+ private Stage popupStage;
 
-	// Stage
-	private Stage mainStage;
-	private Stage popupStage;
+ //Label
+ Label juiceLabel,juicePrice,juiceDesc,juiceQty,juiceTotPrice;
 
-	//Label
-	Label juiceLabel,juicePrice,juiceDesc,juiceQty,juiceTotPrice;
+ //Spinner
+ Spinner<Integer> Qty;
+ SpinnerValueFactory<Integer> QtySpinnerFactory;
 
-	//Spinner
-	Spinner<Integer> Qty;
-	SpinnerValueFactory<Integer> QtySpinnerFactory;
+ //Button
+ Button addBtn;
 
-	//Button
-	Button addBtn;
+ // Combo Box
+ ComboBox<String> juiceName;
 
-	// Combo Box
-	ComboBox<String> juiceName;
+ // Border Pane
+ BorderPane bp;
 
-	// Border Pane
-	BorderPane bp;
+ //Vbox
+ VBox vb;
 
-	//Vbox
-	VBox vb;
+ // HBox
+ HBox hb;
 
-	// HBox
-	HBox hb;
+ //Scene 
+ Scene scene;
 
-	//Scene 
-	Scene scene;
+ // Window
+ Window window;
+ 
+ //Stack Pane
+ StackPane popUp;
 
-	// Window
-	Window window;
-	
-	//Stack Pane
-	StackPane popUp;
+ Connect connect = Connect.getInstance();
+ 
+ void Initialize() {
 
+  //Label
+  juiceLabel = new  Label();
+  juiceDesc = new  Label();
+  juicePrice = new  Label();
+  juiceQty = new  Label();
+  juiceTotPrice = new  Label();
 
-	void Initialize() {
+  // Spinner
+  Qty = new Spinner<>();
+  QtySpinnerFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,1000000000,1,1);
 
-		//Label
-		juiceLabel = new  Label();
-		juiceDesc = new  Label();
-		juicePrice = new  Label();
-		juiceQty = new  Label();
-		juiceTotPrice = new  Label();
+  // Button
+  addBtn = new Button();
 
-		// Spinner
-		Qty = new Spinner<>();
-		QtySpinnerFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,1000000000,1,1);
+  // COmbo Box
+  juiceName = new ComboBox<String>();
 
-		// Button
-		addBtn = new Button();
+  // Border Pane
+  bp = new BorderPane();
 
-		// COmbo Box
-		juiceName = new ComboBox<String>();
+  //Vbox
+  vb = new VBox();
 
-		// Border Pane
-		bp = new BorderPane();
+  //Hbox
+  hb = new HBox();
 
-		//Vbox
-		vb = new VBox();
+  //// // Window
+  window = new Window();
 
-		//Hbox
-		hb = new HBox();
+  
+//  // StackPane
+  popUp = new StackPane();
 
-		////	// Window
-		window = new Window();
+  // Scene
+  scene = new Scene(popUp,400,400);
+  window.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-		
-//		// StackPane
-		popUp = new StackPane();
+ 
+  
+ }
 
-		// Scene
-		scene = new Scene(popUp,400,400);
-		popUp.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+ void Components() {
+  //Label
+  juiceLabel.setText("Juice: ");
+//  juicePrice.setText("Juice Price: ");
+  juiceDesc.setText("Description: ");
+  juiceQty.setText("Quantity: ");
+  juiceTotPrice.setText("Total Price: ");
 
-	}
+  //Button
+  addBtn.setText("Add Item");
+  
+ 
+  //Spinner
+  Qty.setValueFactory(QtySpinnerFactory);
 
-	void Components() {
-		//Label
-		juiceLabel.setText("Juice: ");
-		juicePrice.setText("Juice Price: ");
-		juiceDesc.setText("Description: ");
-		juiceQty.setText("Quantity: ");
-		juiceTotPrice.setText("Total Price: ");
+  //Hbox
+  hb.getChildren().addAll(juiceName,juicePrice);
 
-		//Button
-		addBtn.setText("Add Item");
-		
-	
-		//Spinner
-		Qty.setValueFactory(QtySpinnerFactory);
+  //Vbox
+  vb.getChildren().addAll(juiceLabel,hb,juiceDesc,juiceQty,Qty,juiceTotPrice,addBtn);
 
-		//Hbox
-		hb.getChildren().addAll(juiceName,juicePrice);
+ }
 
-		//Vbox
-		vb.getChildren().addAll(juiceLabel,hb,juiceDesc,juiceQty,Qty,juiceTotPrice,addBtn);
+ void ArrangeComponents() {
+  bp.setCenter(vb);
+  hb.setAlignment(Pos.CENTER);
+  vb.setAlignment(Pos.CENTER);
 
-	}
+  hb.setSpacing(20);
+  vb.setSpacing(20);
+  
+//  // Window
+  window.getContentPane().getChildren().addAll(bp);
+  window.setTitle("Add new item");
+ 
+//  // Stack Pane
+  popUp.getChildren().add(window);
+ }
+ 
+ public void SetEvent() {
+  addBtn.setOnAction(this);
+  juiceName.setOnAction(event -> updateJuicePrice());
+ }
+ 
+ private void getData() {
+  String query1 = "SELECT JuiceName FROM msjuice"; 
+     connect.rs = connect.executeQuery(query1);
+     
 
-	void ArrangeComponents() {
-		bp.setCenter(vb);
-		hb.setAlignment(Pos.CENTER);
-		vb.setAlignment(Pos.CENTER);
+     try {
+         while (connect.rs.next()) {
+          String name = connect.rs.getString("JuiceName");
+             juiceName.getItems().add(name);
+         }
+     } catch (SQLException e) {
+         e.printStackTrace();
+     }
+     
+     updateJuicePrice();
+ }  
+   
+  private void updateJuicePrice() {
+  String selectedJuiceName = juiceName.getValue();
 
-		hb.setSpacing(20);
-		vb.setSpacing(20);
-		
-//		// Window
-		window.getContentPane().getChildren().addAll(bp);
-		window.setTitle("Add new item");
-	
-//		// Stack Pane
-		popUp.getChildren().add(window);
-	}
-	
-	public void SetEvent() {
-		addBtn.setOnAction(this);
-		
-	}
+     if (selectedJuiceName != null) {
+         // Mendapatkan harga jus dari database berdasarkan nama jus yang dipilih
+         String query2 = "SELECT JuicePrice FROM msjuice WHERE JuiceName = ?";
+         try {
+             connect.pst = connect.con.prepareStatement(query2);
+             connect.pst.setString(1, selectedJuiceName);
 
-	public AddItem(Stage mainStage, Stage popupStage) {
-		Initialize();
-		Components();
-		ArrangeComponents();
-		SetEvent();
-		
-		this.popupStage = popupStage;
-		this.mainStage = mainStage;
+             connect.rs = connect.pst.executeQuery();
 
-	}
+             if (connect.rs.next()) {
+                 int juicePriceValue = connect.rs.getInt("JuicePrice");
+                 juicePrice.setText("Juice Price: " + juicePriceValue);
+             }
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+     } else {
+         // Jika tidak ada jus yang dipilih, kosongkan label harga
+         juicePrice.setText("Juice Price: ");
+     }
+ }
+ 
+ private void refreshTable() {
+  getData();
+ }
 
-	public Scene getScenes() {
-		return scene;
-	}
-	
-	public void show() {
-		mainStage.show();
-	}
+ public AddItem(Stage mainStage, Stage popupStage) {
+  Initialize();
+  Components();
+  ArrangeComponents();
+  SetEvent();
+  refreshTable();
+  
+  this.popupStage = popupStage;
+  this.mainStage = mainStage;
 
-	@Override
-	public void handle(ActionEvent e) {
-		if (e.getSource() == addBtn) {
-			CustHomeGrid home = new CustHomeGrid(mainStage);
-				popupStage.close();
+ }
+
+ public Scene getScenes() {
+  return scene;
+ }
+ 
+ public void show() {
+  mainStage.show();
+ }
+
+ @Override
+ public void handle(ActionEvent e) {
+  if (e.getSource() == addBtn) {
+   CustHomeGrid home = new CustHomeGrid(mainStage);
+    popupStage.close();
             
-		}
-		
-	}
+  }
+  
+ }
 }

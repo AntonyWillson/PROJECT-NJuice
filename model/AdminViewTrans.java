@@ -1,5 +1,9 @@
 package model;
 
+import java.util.ArrayList;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -11,12 +15,14 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import util.Connect;
 
 public class AdminViewTrans extends GridPane implements EventHandler<ActionEvent> {
 	//Menu
@@ -41,6 +47,14 @@ public class AdminViewTrans extends GridPane implements EventHandler<ActionEvent
 	
 	//Vbox
 	VBox vbox;
+	
+	//SQL
+	ArrayList<Transaction> transactionList = new ArrayList<Transaction>();
+	ObservableList<Detail> detailList = FXCollections.observableArrayList();
+
+	   
+
+	Connect connect = Connect.getInstance();
 	
 	void Initialize() {
 		//Menu
@@ -98,7 +112,6 @@ public class AdminViewTrans extends GridPane implements EventHandler<ActionEvent
 		TableColumn<Detail, Integer> qty = new TableColumn<>("Quantity");
 		qty.setCellValueFactory(new PropertyValueFactory<Detail, Integer>("qty"));
 		qty.setMinWidth(adminScene.getWidth()/8);
-		tableDetail.setPlaceholder(new Label("Click on a transaction header to view the transaction detail"));
 		
 		tableDetail.getColumns().addAll(idCol1,jIdCol,jName,qty);
 		
@@ -123,7 +136,7 @@ public class AdminViewTrans extends GridPane implements EventHandler<ActionEvent
 		viewTransLabel.setFont(Font.font(null,FontWeight.BOLD,15));
 		
 		//vbox
-		vbox.getChildren().addAll(viewTransLabel,table,tableDetail);
+		vbox.getChildren().addAll(viewTransLabel,table,tableDetail);	
 		
 		// Grid
 		this.add(vbox,0,0);
@@ -147,6 +160,62 @@ public class AdminViewTrans extends GridPane implements EventHandler<ActionEvent
 		menuItem3.setOnAction(this);
 	}
 	
+	private void getData(){
+		transactionList.clear();
+		
+		String query = "SELECT * FROM transactionheader";
+		connect.rs = connect.executeQuery(query);
+		
+		try {
+			while (connect.rs.next()) {
+				String id = connect.rs.getString("TransactionId");
+				String name = connect.rs.getString("Username");
+				String payment = connect.rs.getString("PaymentType");
+				
+				Transaction transaction = new Transaction(id, name, payment);
+				transactionList.add(transaction);
+						
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void getData2(String transSelected) {
+		
+		
+		 String query = "SELECT th.transactionId, mj.JuiceId, JuiceName, Quantity FROM transactionheader th JOIN transactiondetail td ON th.TransactionId = td.TransactionId JOIN MsJuice mj ON mj.JuiceId = td.JuiceId WHERE th.transactionId = '"+transSelected+"'";
+		 connect.rs = connect.executeQuery(query);
+		 
+		 try {
+			 detailList.clear();
+				while (connect.rs.next()) {
+					String idCol1 =  connect.rs.getString("transactionId");
+                    String jIdCol=  connect.rs.getString("JuiceId");
+                    String jName = connect.rs.getString("JuiceName");
+                    int qty = connect.rs.getInt("Quantity");
+					
+					
+					detailList.add(new Detail(idCol1, jIdCol, jName, qty));
+							
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		 tableDetail.setItems(detailList);
+	}
+	
+	private void refreshTable() {
+		getData();
+		ObservableList<Transaction> transObj = FXCollections.observableArrayList(transactionList);
+		table.setItems(transObj);
+
+	}
+	
+	
+	
 	public AdminViewTrans(Stage mainStage) {
 		Initialize();
 		Components();
@@ -154,6 +223,8 @@ public class AdminViewTrans extends GridPane implements EventHandler<ActionEvent
 		ArrangeComponents();
 		SetEvent();
 		CreateTable();
+		refreshTable();
+		setEventMouse();
 		mainStage.setScene(adminScene);
 		this.mainStage = mainStage;
 		
@@ -163,16 +234,19 @@ public class AdminViewTrans extends GridPane implements EventHandler<ActionEvent
 		mainStage.show();
 	}
 
+	void setEventMouse() {
+		table.setOnMouseClicked(e -> {
+			Transaction transSelected = table.getSelectionModel().getSelectedItem();
+			if (transSelected != null) {
+				getData2(transSelected.getId());
+			}
+		});
+	}
 	@Override
 	public void handle(ActionEvent e) {
-		if (e.getSource() == menuItem2) {
-			ManageProducts manage = new ManageProducts(mainStage);
-			manage.show();
-		}else if (e.getSource() == menuItem3) {
-			LoginGrid login = new LoginGrid(mainStage);
-			login.show();
-		}
 		
-	}
-
 }
+}
+
+	
+
