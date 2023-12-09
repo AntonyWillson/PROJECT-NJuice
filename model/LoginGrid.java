@@ -50,6 +50,8 @@ public class LoginGrid extends GridPane implements EventHandler<ActionEvent> {
 
 	private Stage mainStage;
 	
+    String loginUsername;
+	
 	
 	
 	
@@ -229,15 +231,14 @@ public class LoginGrid extends GridPane implements EventHandler<ActionEvent> {
             String password = passwordInput.getText();
             
             if (isAdmin(username, password)) {
-                // Jika peran (role) adalah admin, beralih ke scene admin
                 AdminViewTrans admin = new AdminViewTrans(mainStage);
                 admin.show();
             } else if (isCustomer(username, password)) {
-                // Jika peran (role) adalah customer, beralih ke scene customer
-                CustHomeGrid cust = new CustHomeGrid(mainStage);
+
+				loginUsername = username;
+                CustHomeGrid cust = new CustHomeGrid(mainStage,loginUsername);
                 cust.show();
             } else {
-                // Login tidak valid
                 errorLabel.setText("Invalid username or password");
             }
         }

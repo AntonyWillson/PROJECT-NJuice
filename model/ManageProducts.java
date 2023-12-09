@@ -350,7 +350,6 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 			connect.pst.executeUpdate();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-			// Handle the exception (e.g., show an error message)
 		}
 	}
 
@@ -363,7 +362,6 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 			connect.pst.executeUpdate();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-			// Handle the exception (e.g., show an error message)
 		}
 	}
 

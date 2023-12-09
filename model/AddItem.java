@@ -30,242 +30,252 @@ import jfxtras.labs.scene.control.window.Window;
 import util.Connect;
 
 public class AddItem extends GridPane implements EventHandler<ActionEvent> {
- 
- // Stage
- private Stage mainStage;
- private Stage popupStage;
 
- //Label
- Label juiceLabel,juicePrice,juiceDesc,juiceQty,juiceTotPrice;
+	// Stage
+	private Stage mainStage;
+	private Stage popupStage;
 
- //Spinner
- Spinner<Integer> Qty;
- SpinnerValueFactory<Integer> QtySpinnerFactory;
+	//Label
+	Label juiceLabel,juicePrice,juiceDesc,juiceQty,juiceTotPrice;
 
- //Button
- Button addBtn;
+	//Spinner
+	Spinner<Integer> Qty;
+	SpinnerValueFactory<Integer> QtySpinnerFactory;
 
- // Combo Box
- ComboBox<String> juiceName;
+	//Button
+	Button addBtn;
 
- // Border Pane
- BorderPane bp;
+	// Combo Box
+	ComboBox<String> juiceName;
 
- //Vbox
- VBox vb;
+	// Border Pane
+	BorderPane bp;
 
- // HBox
- HBox hb;
+	//Vbox
+	VBox vb;
 
- //Scene 
- Scene scene;
+	// HBox
+	HBox hb;
 
- // Window
- Window window;
- 
- //Stack Pane
- StackPane popUp;
+	//Scene 
+	Scene scene;
 
- Connect connect = Connect.getInstance();
- 
- void Initialize() {
+	// Window
+	Window window;
 
-  //Label
-  juiceLabel = new  Label();
-  juiceDesc = new  Label();
-  juicePrice = new  Label();
-  juiceQty = new  Label();
-  juiceTotPrice = new  Label();
+	//Stack Pane
+	StackPane popUp;
 
-  // Spinner
-  Qty = new Spinner<>();
-  QtySpinnerFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,1000000000,1,1);
+	Connect connect = Connect.getInstance();
+	private String loginUsername;
 
-  // Button
-  addBtn = new Button();
+	void Initialize() {
 
-  // COmbo Box
-  juiceName = new ComboBox<String>();
+		//Label
+		juiceLabel = new  Label();
+		juiceDesc = new  Label();
+		juicePrice = new  Label();
+		juiceQty = new  Label();
+		juiceTotPrice = new  Label();
 
-  // Border Pane
-  bp = new BorderPane();
+		// Spinner
+		Qty = new Spinner<>();
+		QtySpinnerFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,1000000000,1,1);
 
-  //Vbox
-  vb = new VBox();
+		// Button
+		addBtn = new Button();
 
-  //Hbox
-  hb = new HBox();
+		// COmbo Box
+		juiceName = new ComboBox<String>();
 
-  //// // Window
-  window = new Window();
+		// Border Pane
+		bp = new BorderPane();
 
-  
-//  // StackPane
-  popUp = new StackPane();
+		//Vbox
+		vb = new VBox();
 
-  // Scene
-  scene = new Scene(popUp,600,600);
-  window.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+		//Hbox
+		hb = new HBox();
 
- 
-  
- }
+		//// // Window
+		window = new Window();
 
- void Components() {
-  //Label
-  juiceLabel.setText("Juice: ");
-//  juicePrice.setText("Juice Price: ");
-  juiceDesc.setText("Description: ");
-  juiceDesc.setWrapText(true);
-  juiceQty.setText("Quantity: ");
-  juiceTotPrice.setText("Total Price: ");
 
-  //Button
-  addBtn.setText("Add Item");
-  
- 
-  //Spinner
-  Qty.setValueFactory(QtySpinnerFactory);
-  Qty.valueProperty().addListener((observable, oldValue, newValue) -> {
-	    getData3(); 
-	});
+		//  // StackPane
+		popUp = new StackPane();
 
-  //Hbox
-  hb.getChildren().addAll(juiceName,juicePrice);
+		// Scene
+		scene = new Scene(popUp,600,600);
+		window.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-  //Vbox
-  vb.getChildren().addAll(juiceLabel,hb,juiceDesc,juiceQty,Qty,juiceTotPrice,addBtn);
 
- }
 
- void ArrangeComponents() {
-  bp.setCenter(vb);
-  hb.setAlignment(Pos.CENTER);
-  vb.setAlignment(Pos.CENTER);
+	}
 
-  hb.setSpacing(20);
-  vb.setSpacing(20);
-  
-//  // Window
-  window.getContentPane().getChildren().addAll(bp);
-  window.setTitle("Add new item");
- 
-//  // Stack Pane
-  popUp.getChildren().add(window);
- }
- 
- public void SetEvent() {
-  addBtn.setOnAction(this);
-  juiceName.setOnAction(event -> getData2());
- }
- 
- private void getData() {
-  String query1 = "SELECT JuiceName FROM msjuice"; 
-     connect.rs = connect.executeQuery(query1);
-     
+	void Components() {
+		//Label
+		juiceLabel.setText("Juice: ");
+		//  juicePrice.setText("Juice Price: ");
+		juiceDesc.setText("Description: ");
+		juiceDesc.setWrapText(true);
+		juiceQty.setText("Quantity: ");
+		juiceTotPrice.setText("Total Price: ");
 
-     try {
-         while (connect.rs.next()) {
-          String name = connect.rs.getString("JuiceName");
-             juiceName.getItems().add(name);
-         }
-     } catch (SQLException e) {
-         e.printStackTrace();
-     }
-     
-     getData2();
- }  
-   
-  private void getData2() {
-  String selectedJuiceName = juiceName.getValue();
+		//Button
+		addBtn.setText("Add Item");
 
-     if (selectedJuiceName != null) {
-         // Mendapatkan harga jus dari database berdasarkan nama jus yang dipilih
-         String query2 = "SELECT Price, JuiceDescription FROM msjuice WHERE JuiceName = ?";
-         try {
-             connect.pst = connect.con.prepareStatement(query2);
-             connect.pst.setString(1, selectedJuiceName);
 
-             connect.rs = connect.pst.executeQuery();
+		//Spinner
+		Qty.setValueFactory(QtySpinnerFactory);
+		Qty.valueProperty().addListener((observable, oldValue, newValue) -> {
+			getData2(); 
+		});
 
-             if (connect.rs.next()) {
-                 int juicePriceValue = connect.rs.getInt("Price");
-                 String juiceDescrip = connect.rs.getString("JuiceDescription");
-                 juicePrice.setText("Juice Price: " + juicePriceValue);
+		//Hbox
+		hb.getChildren().addAll(juiceName,juicePrice);
 
-                 juiceDesc.setText(juiceDescrip);
-             }
-         } catch (SQLException e) {
-             e.printStackTrace();
-         }
-     } else {
-         // Jika tidak ada jus yang dipilih, kosongkan label harga
-         juicePrice.setText("Juice Price: ");
-     }
- }
-  
-  private void getData3() {
-	  int quantity = Qty.getValue();
-	    String selectedJuiceName = juiceName.getValue();
+		//Vbox
+		vb.getChildren().addAll(juiceLabel,hb,juiceDesc,juiceQty,Qty,juiceTotPrice,addBtn);
 
-	    if (selectedJuiceName != null) {
-	        // Mendapatkan harga jus dari database berdasarkan nama jus yang dipilih
-	        String query2 = "SELECT Price FROM msjuice WHERE JuiceName = ?";
-	        try {
-	            connect.pst = connect.con.prepareStatement(query2);
-	            connect.pst.setString(1, selectedJuiceName);
+	}
 
-	            connect.rs = connect.pst.executeQuery();
+	void ArrangeComponents() {
+		bp.setCenter(vb);
+		hb.setAlignment(Pos.CENTER);
+		vb.setAlignment(Pos.CENTER);
 
-	            if (connect.rs.next()) {
-	                int juicePriceValue = connect.rs.getInt("Price");
+		hb.setSpacing(20);
+		vb.setSpacing(20);
 
-	                // Hitung total harga
-	                int totalJuicePrice = juicePriceValue * quantity;
+		//  // Window
+		window.getContentPane().getChildren().addAll(bp);
+		window.setTitle("Add new item");
 
-	                // Set label total harga
-	                juiceTotPrice.setText("Total Price: " + totalJuicePrice);
-	            }
-	        } catch (SQLException ex) {
-	            ex.printStackTrace();
-	        }
-	    }
-  }
-  
-  
- 
- private void refreshTable() {
-  getData();
-  
- }
+		//  // Stack Pane
+		popUp.getChildren().add(window);
+	}
 
- public AddItem(Stage mainStage, Stage popupStage) {
-  Initialize();
-  Components();
-  ArrangeComponents();
-  SetEvent();
-  refreshTable();
-  
-  this.popupStage = popupStage;
-  this.mainStage = mainStage;
+	public void SetEvent() {
+		addBtn.setOnAction(this);
+		juiceName.setOnAction(event -> getData2());
+	}
 
- }
+	private void getData() {
+		String query1 = "SELECT JuiceName FROM msjuice"; 
+		connect.rs = connect.executeQuery(query1);
 
- public Scene getScenes() {
-  return scene;
- }
- 
- public void show() {
-  mainStage.show();
- }
 
- @Override
- public void handle(ActionEvent e) {
-  if (e.getSource() == addBtn) {
-   CustHomeGrid home = new CustHomeGrid(mainStage);
-    popupStage.close();
-            
-  }
-  
- }
+		try {
+			while (connect.rs.next()) {
+				String name = connect.rs.getString("JuiceName");
+				juiceName.getItems().add(name);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		getData2();
+	}  
+
+	private void getData2() {
+		String selectedJuiceName = juiceName.getValue();
+		int quantity = Qty.getValue();
+
+		if (selectedJuiceName != null) {
+
+			String query2 = "SELECT Price, JuiceDescription FROM msjuice WHERE JuiceName = ?";
+			try {
+				connect.pst = connect.con.prepareStatement(query2);
+				connect.pst.setString(1, selectedJuiceName);
+
+				connect.rs = connect.pst.executeQuery();
+
+				if (connect.rs.next()) {
+					int juicePriceValue = connect.rs.getInt("Price");
+					String juiceDescrip = connect.rs.getString("JuiceDescription");
+
+					int totalJuicePrice = juicePriceValue * quantity;
+
+					juiceTotPrice.setText("Total Price: " + totalJuicePrice);
+					juicePrice.setText("Juice Price: " + juicePriceValue);
+
+					juiceDesc.setText(juiceDescrip);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} else {
+
+			juicePrice.setText("Juice Price: ");
+		}
+	}
+
+	public void saveCartItem(String username, String juiceName, int quantity, int totalPrice) {
+		String query = "INSERT INTO cartdetail (Username, JuiceId, Quantity) VALUES (?, (SELECT JuiceId FROM msjuice WHERE JuiceName = ?), ?)";
+		try {
+			connect.pst = connect.con.prepareStatement(query);
+			connect.pst.setString(1, username);
+			connect.pst.setString(2, juiceName);
+			connect.pst.setInt(3, quantity);
+			connect.pst.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+
+
+	private void refreshTable() {
+		getData();
+
+	}
+
+	public AddItem(Stage mainStage, Stage popupStage,String loginUsername) {
+		this.loginUsername = loginUsername;
+		Initialize();
+		Components();
+		ArrangeComponents();
+		SetEvent();
+		refreshTable();
+
+		this.popupStage = popupStage;
+		this.mainStage = mainStage;
+
+	}
+
+	public Scene getScenes() {
+		return scene;
+	}
+
+	public void show() {
+		mainStage.show();
+	}
+
+	@Override
+	public void handle(ActionEvent e) {
+		if (e.getSource() == addBtn) {
+			if (e.getSource() == addBtn) {
+				String selectedJuiceName = juiceName.getValue();
+				int quantity = Qty.getValue();
+
+				if (selectedJuiceName != null && quantity > 0) {
+					int juicePriceValue;
+					try {
+						juicePriceValue = connect.rs.getInt("Price");
+						getData2();
+						saveCartItem(loginUsername, selectedJuiceName, quantity, juicePriceValue * quantity);
+						// Refresh table by adding the new item directly to the cart in CustHomeGrid
+						CustHomeGrid home = new CustHomeGrid(mainStage, loginUsername);
+						home.addItem(quantity + " x " + selectedJuiceName + " - [Rp. " + juicePriceValue * quantity + "]");
+						popupStage.close();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		}
+	}
 }
+
+

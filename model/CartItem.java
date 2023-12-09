@@ -1,33 +1,49 @@
 package model;
 
 public class CartItem {
-	private String juiceName;
-	private int qty;
-	private int price;
-	public CartItem(String juiceName, int qty, int price) {
-		super();
-		this.juiceName = juiceName;
-		this.qty = qty;
-		this.price = price;
-	}
+    private String juiceName;
+    private int quantity;
+    private int totalPrice;
+    private String juiceId;
+
+    public CartItem(String juiceName, int quantity, int totalPrice, String juiceId) {
+        this.juiceName = juiceName;
+        this.quantity = quantity;
+        this.totalPrice = totalPrice;
+        this.juiceId = juiceId;
+    }
+
 	public String getJuiceName() {
 		return juiceName;
 	}
+
 	public void setJuiceName(String juiceName) {
 		this.juiceName = juiceName;
 	}
-	public int getQty() {
-		return qty;
+
+	public int getQuantity() {
+		return quantity;
 	}
-	public void setQty(int qty) {
-		this.qty = qty;
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
-	public int getPrice() {
-		return price;
+
+	public int getTotalPrice() {
+		return totalPrice;
 	}
-	public void setPrice(int price) {
-		this.price = price;
+
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
 	}
-	
-	
+
+	public String getJuiceId() {
+		return juiceId;
+	}
+
+	public void setJuiceId(String juiceId) {
+		this.juiceId = juiceId;
+	}
+
+
 }
