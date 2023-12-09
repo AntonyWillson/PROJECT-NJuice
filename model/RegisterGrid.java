@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.SQLException;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -18,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import util.Connect;
 
 public class RegisterGrid extends GridPane implements EventHandler<ActionEvent> {
 	
@@ -50,6 +53,8 @@ public class RegisterGrid extends GridPane implements EventHandler<ActionEvent> 
 	MenuItem menuItem2;
 	
 	void initialize() {
+		
+		Connect con = Connect.getInstance(); 
 		// Label
 		registerLabel = new Label();
 		NjuiceLabel = new Label();
@@ -156,11 +161,28 @@ public class RegisterGrid extends GridPane implements EventHandler<ActionEvent> 
 		registerButton.setOnAction(this);
 	}
 	
+	private boolean insertUserToDatabase(String username, String password) {
+        Connect connect = Connect.getInstance();
+        String query = "INSERT INTO msuser (username, password, role) VALUES (?, ?, ?)";
+        try {
+            connect.pst = connect.prepareStatement(query);
+            connect.pst.setString(1, username);
+            connect.pst.setString(2, password);
+            connect.pst.setString(3, "Customer");
+            connect.pst.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+	
 	public RegisterGrid(Stage mainStage) {
 		initialize();
 		components();
 		arrangecomponents();
 		setEvent();
+		
 		mainStage.setScene(registerScene);
 		this.mainStage = mainStage;
 	}
@@ -180,12 +202,14 @@ public class RegisterGrid extends GridPane implements EventHandler<ActionEvent> 
 			}else if (!tncCheck.isSelected()) {
 				errorLabel.setText("Please click the tnc");
 			}else {
-				i++;
-				String id = String.format("CU%03d", i);
-				System.out.println(id);
-		
-				LoginGrid login = new LoginGrid(mainStage);
-				login.show();	
+				if (insertUserToDatabase(usernameInput.getText(), passwordInput.getText())) {
+
+                    LoginGrid login = new LoginGrid(mainStage);
+                    login.show();
+                } else {
+                    errorLabel.setText("Username is already taken. Please choose another.");
+                }
+
 			}
 			
 		}

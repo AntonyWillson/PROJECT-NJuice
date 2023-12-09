@@ -1,5 +1,6 @@
 package model;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -57,6 +58,9 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 	//Alert
 	Alert alert;
 	
+	// Obersavle List
+	ObservableList<CartItem> cartItems = FXCollections.observableArrayList();
+	
 
 	void initialize() {
 		
@@ -98,6 +102,7 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		//Border
 		bp = new BorderPane();
 		
+
 		
 		// Scene
 		custHomeScene = new Scene(bp,800,600);
@@ -125,9 +130,9 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		
 		// VBox
 		//list
-		cartList.getItems().addAll("1x Avocado [Rp 75.000]");
 		
-		if (cartList.getItems().isEmpty()) {
+		
+		if (cartItems.isEmpty()) {
 			vBoxCartLabel.getChildren().addAll(cartLabel,descCartLabel);	
 		}else {
 			vBoxCartLabel.getChildren().addAll(cartLabel,cartList);
@@ -178,6 +183,14 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		addButton.setOnAction(this);
 		deleteButton.setOnAction(this);
 		checkoutButton.setOnAction(this);
+	}
+	
+	void getData() {
+		
+	}
+	
+	void RefreshTable() {
+		getData();
 	}
 	
 	

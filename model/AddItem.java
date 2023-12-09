@@ -236,6 +236,7 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
  
  private void refreshTable() {
   getData();
+  
  }
 
  public AddItem(Stage mainStage, Stage popupStage) {
