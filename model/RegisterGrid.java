@@ -54,7 +54,6 @@ public class RegisterGrid extends GridPane implements EventHandler<ActionEvent> 
 	
 	void initialize() {
 		
-		Connect con = Connect.getInstance(); 
 		// Label
 		registerLabel = new Label();
 		NjuiceLabel = new Label();
@@ -207,7 +206,7 @@ public class RegisterGrid extends GridPane implements EventHandler<ActionEvent> 
                     LoginGrid login = new LoginGrid(mainStage);
                     login.show();
                 } else {
-                    errorLabel.setText("Username is already taken. Please choose another.");
+                    errorLabel.setText("Username is already taken");
                 }
 
 			}
