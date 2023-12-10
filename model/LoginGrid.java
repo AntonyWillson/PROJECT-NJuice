@@ -239,7 +239,7 @@ public class LoginGrid extends GridPane implements EventHandler<ActionEvent> {
                 CustHomeGrid cust = new CustHomeGrid(mainStage,loginUsername);
                 cust.show();
             } else {
-                errorLabel.setText("Invalid username or password");
+                errorLabel.setText("Credential Failed!");
             }
         }
     }

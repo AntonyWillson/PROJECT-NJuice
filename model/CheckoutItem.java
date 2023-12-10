@@ -1,6 +1,8 @@
 package model;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -57,6 +60,7 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 
 	// Border Pane
 	BorderPane bp;
+	private List<String> itemRow;
 
 	// Scene
 	Scene checkoutScene;
@@ -90,6 +94,9 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 		// Region
 		regionToolbar = new Region();
 
+		// List
+		itemRow = new ArrayList<String>();
+
 		// Vbox
 		vb = new VBox();
 		vb2 = new VBox();
@@ -110,8 +117,6 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 	}
 
 	public void Components() {
-		// Label
-		welcomeLabel.setText("Hello Antony");
 		checkoutLabel.setText("Checkout");
 		checkoutLabel.setFont(Font.font(null,FontWeight.EXTRA_BOLD,40));
 
@@ -218,12 +223,11 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 			connect.pst.setString(2, loginUsername);
 			connect.pst.setString(3, paymentType);
 			connect.pst.executeUpdate();
-			System.out.println(paymentType);
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 
-		checkoutData2();
+
 
 		cartList.getItems().clear();
 
@@ -236,37 +240,24 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 			e1.printStackTrace();
 		}
 
-		alert = new Alert(Alert.AlertType.INFORMATION);
-		alert.setTitle("Message");
-		alert.setContentText("All items checked out successfully, please proceed further...");
-		alert.show();
-	}
-
-	void checkoutData2() {
-		Connect connect = Connect.getInstance();
-		String transactionId = generateTransactionId();
 		String insertDetailQuery = "INSERT INTO transactiondetail (TransactionId, JuiceId, Quantity) VALUES (?, (SELECT JuiceId FROM msjuice WHERE JuiceName = ? LIMIT 1), ?)";
 
 		try {
-
-			String selectedValue = item1Label.getText();
+			String selectedValue = itemRow.get(0);
 
 			int indexOfX = selectedValue.indexOf("x");
 			int indexOfHyphen = selectedValue.indexOf("-");
 			if (indexOfX != -1 && indexOfHyphen != -1) {
-				String name = selectedValue.substring(indexOfX + 2, indexOfHyphen - 1).trim();
-				System.out.println("Extracted Name: " + name);
+				String name = selectedValue.substring(indexOfX + 2, indexOfHyphen).trim();
 
-				int startIndex = selectedValue.indexOf("x") + 1;
-				int endIndex = selectedValue.indexOf(" ");
+				int startIndex = indexOfHyphen + 1;
+				int endIndex = selectedValue.indexOf(" ", startIndex);
 
-				if (startIndex != -1 && endIndex != -1) {
-					String quantityString = selectedValue.substring(startIndex, endIndex).trim();
+				int indexOf = selectedValue.indexOf("x");
 
-
+				if (indexOf != 1 ) {
+					String quantityString = selectedValue.substring(0, indexOfX).trim();
 					int quantity = Integer.parseInt(quantityString);
-					System.out.println(name);
-					System.out.println(quantity);
 
 					connect.pst = connect.con.prepareStatement(insertDetailQuery);
 					connect.pst.setString(1, transactionId);
@@ -277,10 +268,30 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
-
-
 		}
+
+
+		alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("Message");
+		alert.setContentText("All items checked out successfully, please proceed further...");
+		
+		ButtonType okButton = new ButtonType("OK", ButtonData.OK_DONE);
+	    alert.getButtonTypes().setAll(okButton);
+	    
+	    alert.showAndWait().ifPresent(buttonType -> {
+	        if (buttonType == okButton) {
+	            navigateToCustHomeGrid();
+	        }
+	    });
 	}
+	
+	void navigateToCustHomeGrid() {
+		mainStage.close();
+
+	    CustHomeGrid custHomeGrid = new CustHomeGrid(new Stage(), loginUsername);
+	    custHomeGrid.show();
+	}
+
 
 
 	void getData(String username) {
@@ -293,6 +304,10 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 			connect.pst = connect.con.prepareStatement(query);
 			connect.pst.setString(1, loginUsername);
 			connect.rs = connect.pst.executeQuery();
+			
+			welcomeLabel.setText("Hi, "+loginUsername);
+
+			itemRow.clear();
 
 			while (connect.rs.next()) {
 				String juiceName = connect.rs.getString("JuiceName");
@@ -301,7 +316,9 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 
 				String row = String.format("%d x %s - [Rp. %d]", quantity, juiceName, totalPrice);
 
-				Label label = new Label(row); 
+				itemRow.add(row);
+
+				Label label = new Label(row);
 				itemsVBox.getChildren().add(label);
 			}
 		} catch (SQLException e) {
