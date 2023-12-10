@@ -246,6 +246,8 @@ public class ManageProducts extends GridPane implements EventHandler<ActionEvent
 		TableColumn<Products, String> descCol = new TableColumn<Products, String>("Juice Description");
 		descCol.setCellValueFactory(new PropertyValueFactory<Products, String>("juiceDescription"));
 		descCol.setMinWidth(200);
+		
+		tableProducts.setMaxWidth(501);
 
 		tableProducts.getColumns().addAll(idCol,nameCol,priceCol,descCol);
 

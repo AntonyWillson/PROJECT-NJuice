@@ -192,7 +192,7 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 
 	}
 
-	private String generateTransactionId() {
+	private String TransactionIdCount() {
 		Connect connect = Connect.getInstance();
 		int maxId = 0;
 
@@ -212,8 +212,9 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 	}
 
 	void checkoutData() {
+		// Insert ke Transaction Header
 		Connect connect = Connect.getInstance();
-		String transactionId = generateTransactionId();
+		String transactionId = TransactionIdCount();
 		String paymentType = ((RadioButton) payGroup.getSelectedToggle()).getText();
 
 		String insertHeaderQuery = "INSERT INTO transactionheader (TransactionId, Username, PaymentType) VALUES (?, ?, ?)";
@@ -226,11 +227,9 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-
-
-
 		cartList.getItems().clear();
-
+		
+		// Hapus cart detail
 		String deleteCartDetailQuery = "DELETE FROM cartdetail WHERE Username = ?";
 		try {
 			connect.pst = connect.con.prepareStatement(deleteCartDetailQuery);
@@ -240,36 +239,33 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 			e1.printStackTrace();
 		}
 
+		// Insert ke transaction detail
 		String insertDetailQuery = "INSERT INTO transactiondetail (TransactionId, JuiceId, Quantity) VALUES (?, (SELECT JuiceId FROM msjuice WHERE JuiceName = ? LIMIT 1), ?)";
 
 		try {
-			String selectedValue = itemRow.get(0);
+			for (String selectedValue : itemRow) {
+			    int i = selectedValue.indexOf("x");
+			    int j= selectedValue.indexOf("-");
+			    if (i != -1 && j != -1) {
+			        String name = selectedValue.substring(i + 2, j).trim();
 
-			int indexOfX = selectedValue.indexOf("x");
-			int indexOfHyphen = selectedValue.indexOf("-");
-			if (indexOfX != -1 && indexOfHyphen != -1) {
-				String name = selectedValue.substring(indexOfX + 2, indexOfHyphen).trim();
+			        int x = selectedValue.indexOf("x");
 
-				int startIndex = indexOfHyphen + 1;
-				int endIndex = selectedValue.indexOf(" ", startIndex);
+			        if (x != 1) {
+			            String quantityString = selectedValue.substring(0, i).trim();
+			            int quantity = Integer.parseInt(quantityString);
 
-				int indexOf = selectedValue.indexOf("x");
-
-				if (indexOf != 1 ) {
-					String quantityString = selectedValue.substring(0, indexOfX).trim();
-					int quantity = Integer.parseInt(quantityString);
-
-					connect.pst = connect.con.prepareStatement(insertDetailQuery);
-					connect.pst.setString(1, transactionId);
-					connect.pst.setString(2, name);
-					connect.pst.setInt(3, quantity);
-					connect.pst.executeUpdate();
-				}
+			            connect.pst = connect.con.prepareStatement(insertDetailQuery);
+			            connect.pst.setString(1, transactionId);
+			            connect.pst.setString(2, name);
+			            connect.pst.setInt(3, quantity);
+			            connect.pst.executeUpdate();
+			        }
+			    }
 			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-
 
 		alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("Message");
@@ -280,12 +276,12 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 	    
 	    alert.showAndWait().ifPresent(buttonType -> {
 	        if (buttonType == okButton) {
-	            navigateToCustHomeGrid();
+	            halamanHome();
 	        }
 	    });
 	}
 	
-	void navigateToCustHomeGrid() {
+	void halamanHome() {
 		mainStage.close();
 
 	    CustHomeGrid custHomeGrid = new CustHomeGrid(new Stage(), loginUsername);

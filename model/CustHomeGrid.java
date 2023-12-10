@@ -271,13 +271,11 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 
 		}else if (e.getSource() == deleteButton) {
 			String selectedValue = cartList.getSelectionModel().getSelectedItem();
-			System.out.println(selectedValue);
 			if (selectedValue != null) {
-				int indexOfX = selectedValue.indexOf("x");
-				int indexOfHyphen = selectedValue.indexOf("-");
-				if (indexOfX != -1 && indexOfHyphen != -1) {
-					String name = selectedValue.substring(indexOfX + 2, indexOfHyphen - 1).trim();
-					System.out.println("Extracted Name: " + name);
+				int i = selectedValue.indexOf("x");
+				int j = selectedValue.indexOf("-");
+				if (i != -1 && j != -1) {
+					String name = selectedValue.substring(i + 2, j - 1).trim();
 
 					RemoveData(loginUsername, name);
 					cartList.getItems().remove(selectedValue);
