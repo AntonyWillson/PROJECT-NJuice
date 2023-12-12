@@ -221,7 +221,8 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
 
 	        if (connect.rs.next()) {
 	            int oldQuantity = connect.rs.getInt("Quantity");
-	            int newQuantity = oldQuantity + oldQuantity;
+	            int newQuantity = oldQuantity + quantity;
+
 
 	            String updateQuery = "UPDATE cartdetail SET Quantity = ? WHERE Username = ? AND JuiceId = (SELECT JuiceId FROM msjuice WHERE JuiceName = ?)";
 	            connect.pst = connect.con.prepareStatement(updateQuery);
@@ -231,7 +232,7 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
 	            connect.pst.executeUpdate();
 	        } else {
 
-	            String insertQuery = "INSERT INTO cartdetail (Username, JuiceId, Quantity) VALUES (?, (SELECT JuiceId FROM msjuice WHERE JuiceName = ?), ?)";
+	            String insertQuery = "INSERT INTO cartdetail (Username, JuiceId, Quantity, TotalPrice) VALUES (?, (SELECT JuiceId FROM msjuice WHERE JuiceName = ?), ?)";
 	            connect.pst = connect.con.prepareStatement(insertQuery);
 	            connect.pst.setString(1, username);
 	            connect.pst.setString(2, juiceName);
@@ -286,7 +287,6 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
 						juicePriceValue = connect.rs.getInt("Price");
 						getData2();
 						saveCartItem(loginUsername, selectedJuiceName, quantity, juicePriceValue * quantity);
-						
 						CustHomeGrid home = new CustHomeGrid(mainStage, loginUsername);
 						home.addItem(quantity + " x " + selectedJuiceName + " - [Rp. " + juicePriceValue * quantity + "]",false);
 						popupStage.close();
