@@ -210,18 +210,39 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
 		}
 	}
 
-	public void saveCartItem(String username, String juiceName, int quantity, int totalPrice) {
-		String query = "INSERT INTO cartdetail (Username, JuiceId, Quantity) VALUES (?, (SELECT JuiceId FROM msjuice WHERE JuiceName = ?), ?)";
-		try {
-			connect.pst = connect.con.prepareStatement(query);
-			connect.pst.setString(1, username);
-			connect.pst.setString(2, juiceName);
-			connect.pst.setInt(3, quantity);
-			connect.pst.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void saveCartItem(String username, String juiceName, int quantity, int juicePriceValue) {
+	    // Check if the item already exists in the cart
+	    String checkQuery = "SELECT * FROM cartdetail WHERE Username = ? AND JuiceId = (SELECT JuiceId FROM msjuice WHERE JuiceName = ?)";
+	    try {
+	        connect.pst = connect.con.prepareStatement(checkQuery);
+	        connect.pst.setString(1, username);
+	        connect.pst.setString(2, juiceName);
+	        connect.rs = connect.pst.executeQuery();
+
+	        if (connect.rs.next()) {
+	            int oldQuantity = connect.rs.getInt("Quantity");
+	            int newQuantity = oldQuantity + oldQuantity;
+
+	            String updateQuery = "UPDATE cartdetail SET Quantity = ? WHERE Username = ? AND JuiceId = (SELECT JuiceId FROM msjuice WHERE JuiceName = ?)";
+	            connect.pst = connect.con.prepareStatement(updateQuery);
+	            connect.pst.setInt(1, newQuantity);
+	            connect.pst.setString(2, username);
+	            connect.pst.setString(3, juiceName);
+	            connect.pst.executeUpdate();
+	        } else {
+
+	            String insertQuery = "INSERT INTO cartdetail (Username, JuiceId, Quantity) VALUES (?, (SELECT JuiceId FROM msjuice WHERE JuiceName = ?), ?)";
+	            connect.pst = connect.con.prepareStatement(insertQuery);
+	            connect.pst.setString(1, username);
+	            connect.pst.setString(2, juiceName);
+	            connect.pst.setInt(3, quantity);
+	            connect.pst.executeUpdate();
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 
 
 
@@ -265,9 +286,9 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
 						juicePriceValue = connect.rs.getInt("Price");
 						getData2();
 						saveCartItem(loginUsername, selectedJuiceName, quantity, juicePriceValue * quantity);
-						// Refresh table by adding the new item directly to the cart in CustHomeGrid
+						
 						CustHomeGrid home = new CustHomeGrid(mainStage, loginUsername);
-						home.addItem(quantity + " x " + selectedJuiceName + " - [Rp. " + juicePriceValue * quantity + "]");
+						home.addItem(quantity + " x " + selectedJuiceName + " - [Rp. " + juicePriceValue * quantity + "]",false);
 						popupStage.close();
 					} catch (SQLException e1) {
 						e1.printStackTrace();

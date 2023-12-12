@@ -227,16 +227,15 @@ public class LoginGrid extends GridPane implements EventHandler<ActionEvent> {
 		}else if (e.getSource() == loginButton) {
 			if (usernameInput.getText().isEmpty() || passwordInput.getText().isEmpty()) {
 				errorLabel.setText("Please Input all the field");
-			} String username = usernameInput.getText();
+			} 
+			String username = usernameInput.getText();
             String password = passwordInput.getText();
-            
             if (isAdmin(username, password)) {
                 AdminViewTrans admin = new AdminViewTrans(mainStage);
                 admin.show();
             } else if (isCustomer(username, password)) {
 
-				loginUsername = username;
-                CustHomeGrid cust = new CustHomeGrid(mainStage,loginUsername);
+                CustHomeGrid cust = new CustHomeGrid(mainStage,username);
                 cust.show();
             } else {
                 errorLabel.setText("Credential Failed!");

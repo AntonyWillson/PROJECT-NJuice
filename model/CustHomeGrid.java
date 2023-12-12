@@ -238,11 +238,13 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		cartList.getItems().setAll(cartItems);
 	}
 
-	void addItem(String item) {
-		if (!cartItems.contains(item)) {
-			cartItems.add(item);
-			RefreshTable();
-		}
+	void addItem(String item, boolean addToListView) {
+	    if (!cartItems.contains(item)) {
+	        cartItems.add(item);
+	        if (addToListView) {
+	            RefreshTable();
+	        }
+	    }
 	}
 
 
