@@ -232,7 +232,7 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
 	            connect.pst.executeUpdate();
 	        } else {
 
-	            String insertQuery = "INSERT INTO cartdetail (Username, JuiceId, Quantity, TotalPrice) VALUES (?, (SELECT JuiceId FROM msjuice WHERE JuiceName = ?), ?)";
+	            String insertQuery = "INSERT INTO cartdetail (Username, JuiceId, Quantity) VALUES (?, (SELECT JuiceId FROM msjuice WHERE JuiceName = ?), ?)";
 	            connect.pst = connect.con.prepareStatement(insertQuery);
 	            connect.pst.setString(1, username);
 	            connect.pst.setString(2, juiceName);
