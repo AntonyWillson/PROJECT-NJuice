@@ -50,7 +50,7 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 	Region regionToolbar;
 
 	// Vbox
-	VBox vb,vb2,vb3,vb4,vb5;
+	VBox vb,vb2,vb3,vb4,vb5,vb6;
 
 	//Alert
 	Alert alert;
@@ -68,6 +68,8 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 	private String loginUsername;
 
 	private ListView<String> cartList;
+	
+	int Subtotal;
 
 	public void Initialize() {
 		// Label
@@ -103,6 +105,7 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 		vb3 = new VBox();
 		vb4 = new VBox();
 		vb5 = new VBox();
+		vb6 = new VBox();
 
 		// Hbox
 		hb = new HBox();
@@ -304,6 +307,7 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 			welcomeLabel.setText("Hi, "+loginUsername);
 
 			itemRow.clear();
+			Subtotal = 0;
 
 			while (connect.rs.next()) {
 				String juiceName = connect.rs.getString("JuiceName");
@@ -315,18 +319,24 @@ public class CheckoutItem extends GridPane implements EventHandler<ActionEvent> 
 				itemRow.add(row);
 
 				Label label = new Label(row);
-				itemsVBox.getChildren().add(label);
+				Subtotal += totalPrice;
+				
+				itemsVBox.getChildren().addAll(label);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		vb2.getChildren().clear();
-		vb2.getChildren().add(itemsVBox);
+		
+		Label label2 = new Label("Total Price : "+Subtotal);
+		vb2.getChildren().addAll(itemsVBox,label2);
+		
 	}
 
 	void RefreshTable() {
 		getData(loginUsername);
+		
 	}
 
 	public CheckoutItem(Stage mainStage, String loginUsername, ListView<String> cartList) {

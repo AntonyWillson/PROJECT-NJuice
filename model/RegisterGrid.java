@@ -110,7 +110,7 @@ public class RegisterGrid extends GridPane implements EventHandler<ActionEvent> 
 		// Text Field
 		usernameInput.setPromptText("Enter Username...");
 		usernameInput.setPrefWidth(400);
-		passwordInput.setPromptText("Enter Password...");
+		passwordInput.setPromptText("Enter new password...");
 		
 		// Button
 		registerButton.setText("Register");
@@ -129,7 +129,7 @@ public class RegisterGrid extends GridPane implements EventHandler<ActionEvent> 
 		
 		
 		// Check Box
-		tncCheck.setText("I aggre to the terms and conditions of NJuice!");
+		tncCheck.setText("I agree to the terms and conditions of NJuice!");
 		
 		// Grid Pane
 		this.add(vboxRegisterLabel,0, 0);

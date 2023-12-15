@@ -29,6 +29,7 @@ import jfxtras.labs.scene.control.window.Window;
 import util.Connect;
 
 public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> {
+	int subtotal;
 	private Label cartLabel,descCartLabel,welcomeLabel;
 
 	private VBox vBoxCartLabel;
@@ -173,6 +174,7 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		checkoutButton.setPrefHeight(50);
 
 		vBoxCartLabel.setAlignment(Pos.CENTER);
+		vBoxCartLabel.setSpacing(10);
 
 		this.setAlignment(Pos.CENTER);
 	}
@@ -188,7 +190,7 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 	void getData(String username) {
 		Connect connect = Connect.getInstance();
 		String query = "SELECT cd.Username, cd.Quantity, mj.JuiceName, cd.Quantity * mj.Price AS 'Total Price' FROM msuser mu JOIN cartdetail cd ON mu.Username = cd.Username JOIN msjuice mj ON mj.JuiceId = cd.JuiceId WHERE cd.Username = ?";
-
+		subtotal = 0;
 		try {
 			connect.pst = connect.con.prepareStatement(query);
 			connect.pst.setString(1, loginUsername);
@@ -200,6 +202,7 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 				int totalPrice = connect.rs.getInt("Total Price");
 
 				String row = String.format("%d x %s - [Rp. %d]", quantity, juiceName, totalPrice);
+				subtotal += totalPrice;
 				cartItems.add(row);
 			}
 		} catch (SQLException e) {
@@ -228,13 +231,13 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 
 	void RefreshTable() {
 		vBoxCartLabel.getChildren().clear();
+		Label label = new Label("Total Price : "+subtotal);
 		if (cartItems.isEmpty()) {
 			vBoxCartLabel.getChildren().addAll(cartLabel, descCartLabel);
 		} else {
-			vBoxCartLabel.getChildren().addAll(cartLabel, cartList);
+			vBoxCartLabel.getChildren().addAll(cartLabel, cartList,label);
 		}
 
-		// Menjadi
 		cartList.getItems().setAll(cartItems);
 	}
 
