@@ -211,45 +211,93 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 	}
 
 	void RemoveData(String username, String selectedValue) {
-		Connect connect = Connect.getInstance();
-		String query = "DELETE FROM cartdetail WHERE Username = ? AND JuiceId = (SELECT JuiceId FROM msjuice WHERE JuiceName = ?)";
+	    Connect connect = Connect.getInstance();
+	    String query = "DELETE FROM cartdetail WHERE Username = ? AND JuiceId = (SELECT JuiceId FROM msjuice WHERE JuiceName = ?)";
 
-		try {
-			connect.pst = connect.con.prepareStatement(query);
-			connect.pst.setString(1, username);
-			connect.pst.setString(2, selectedValue);
-			connect.pst.executeUpdate();
-			cartItems.remove(selectedValue);
+	    try {
+	        connect.pst = connect.con.prepareStatement(query);
+	        connect.pst.setString(1, username);
+	        connect.pst.setString(2, selectedValue);
+	        connect.pst.executeUpdate();
 
-			cartList.getItems().remove(selectedValue);
+	        int index = selectedValue.indexOf("Rp.");
+	        if (index != -1) {
+	            String totalPriceStr = selectedValue.substring(index + 4, selectedValue.indexOf("]")).trim();
+	            // Clean up any non-digit characters
+	            totalPriceStr = totalPriceStr.replaceAll("[^\\d]", "");
+	            
+	            if (!totalPriceStr.isEmpty()) {
+	                int totalPrice = Integer.parseInt(totalPriceStr);
+	                subtotal -= totalPrice;
+	            }
+	        }
 
-			cartList.getSelectionModel().clearSelection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	        cartItems.remove(selectedValue);
+
+	        setData();
+
+	        cartList.getSelectionModel().clearSelection();
+
+	        RefreshTable();
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
+
+
 
 	void RefreshTable() {
-		vBoxCartLabel.getChildren().clear();
-		Label label = new Label("Total Price : "+subtotal);
-		if (cartItems.isEmpty()) {
-			vBoxCartLabel.getChildren().addAll(cartLabel, descCartLabel);
-		} else {
-			vBoxCartLabel.getChildren().addAll(cartLabel, cartList,label);
-		}
+	    vBoxCartLabel.getChildren().clear();
 
-		cartList.getItems().setAll(cartItems);
+	    if (cartItems.isEmpty()) {
+	        vBoxCartLabel.getChildren().addAll(cartLabel, descCartLabel);
+	    } else {
+	        vBoxCartLabel.getChildren().addAll(cartLabel, cartList);
+ 
+	        subtotal = 0;
+	        for (String item : cartItems) {
+	            int index = item.indexOf("Rp.");
+	            if (index != -1) {
+	                String totalPriceStr = item.substring(index + 4, item.indexOf("]")).trim();
+	                
+	                totalPriceStr = totalPriceStr.replaceAll("[^\\d]", "");
+	                
+	                if (!totalPriceStr.isEmpty()) {
+	                    int totalPrice = Integer.parseInt(totalPriceStr);
+	                    subtotal += totalPrice;
+	                }
+	            }
+	        }
+
+	        Label label = new Label("Total Price : Rp. " + subtotal);
+	        vBoxCartLabel.getChildren().add(label);
+	    }
 	}
+
+
+
+
+
+
+
 
 	void addItem(String item, boolean addToListView) {
 	    if (!cartItems.contains(item)) {
+	        cartItems.clear(); 
+	        cartItems.addAll(cartList.getItems());
 	        cartItems.add(item);
+
 	        if (addToListView) {
 	            RefreshTable();
 	        }
 	    }
 	}
 
+	
+	void setData() {
+	    cartList.setItems(cartItems);
+	}
 
 	public CustHomeGrid(Stage mainStage, String loginUsername) {
 		this.loginUsername = loginUsername;
@@ -258,6 +306,7 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 		arrangeComponents();
 		setEvent();
 		getData(loginUsername);
+		setData();
 		RefreshTable();
 		mainStage.setScene(custHomeScene);
 		this.mainStage = mainStage;
@@ -284,6 +333,7 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 
 					RemoveData(loginUsername, name);
 					cartList.getItems().remove(selectedValue);
+					RefreshTable();
 				} 
 			}else {
 				alert.setTitle("Error");

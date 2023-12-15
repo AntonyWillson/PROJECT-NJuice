@@ -211,7 +211,7 @@ public class AddItem extends GridPane implements EventHandler<ActionEvent> {
 	}
 
 	public void saveCartItem(String username, String juiceName, int quantity, int juicePriceValue) {
-	    // Check if the item already exists in the cart
+
 	    String checkQuery = "SELECT * FROM cartdetail WHERE Username = ? AND JuiceId = (SELECT JuiceId FROM msjuice WHERE JuiceName = ?)";
 	    try {
 	        connect.pst = connect.con.prepareStatement(checkQuery);
