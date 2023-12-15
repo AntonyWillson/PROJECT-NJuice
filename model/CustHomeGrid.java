@@ -223,7 +223,6 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 	        int index = selectedValue.indexOf("Rp.");
 	        if (index != -1) {
 	            String totalPriceStr = selectedValue.substring(index + 4, selectedValue.indexOf("]")).trim();
-	            // Clean up any non-digit characters
 	            totalPriceStr = totalPriceStr.replaceAll("[^\\d]", "");
 	            
 	            if (!totalPriceStr.isEmpty()) {
@@ -244,8 +243,6 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 	        e.printStackTrace();
 	    }
 	}
-
-
 
 	void RefreshTable() {
 	    vBoxCartLabel.getChildren().clear();
@@ -274,13 +271,6 @@ public class CustHomeGrid extends GridPane implements EventHandler<ActionEvent> 
 	        vBoxCartLabel.getChildren().add(label);
 	    }
 	}
-
-
-
-
-
-
-
 
 	void addItem(String item, boolean addToListView) {
 	    if (!cartItems.contains(item)) {
